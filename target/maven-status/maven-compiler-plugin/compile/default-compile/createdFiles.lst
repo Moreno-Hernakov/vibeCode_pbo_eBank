@@ -1,0 +1,4 @@
+com\ebanking\model\User.class
+com\mycompany\ebank\EBank.class
+com\ebanking\dao\UserDAO.class
+com\ebanking\view\LoginForm.class
