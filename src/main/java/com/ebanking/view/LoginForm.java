@@ -134,11 +134,15 @@ public class LoginForm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        Lupa_Password lupa = new Lupa_Password();
+        lupa.setLocationRelativeTo(null);
+        lupa.setVisible(true);        // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        Register r = new Register();
+        r.setLocationRelativeTo(null);
+        r.setVisible(true);        // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**

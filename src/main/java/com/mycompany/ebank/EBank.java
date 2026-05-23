@@ -14,7 +14,6 @@ import javax.swing.SwingUtilities;
 public class EBank {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
         SwingUtilities.invokeLater(() -> {
             new LoginForm().setVisible(true);
         });
