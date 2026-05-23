@@ -8,14 +8,14 @@ package com.ebanking.view;
  *
  * @author user
  */
-public class Lupa_Password extends javax.swing.JFrame {
+public class Tampilan_Rekening extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Lupa_Password.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Tampilan_Rekening.class.getName());
 
     /**
-     * Creates new form Lupa_Password
+     * Creates new form Tampilan_Rekening
      */
-    public Lupa_Password() {
+    public Tampilan_Rekening() {
         initComponents();
     }
 
@@ -28,37 +28,17 @@ public class Lupa_Password extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jLabel3.setText("Lupa Password ?");
-
-        jLabel4.setText("jLabel4");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(62, 62, 62)
-                        .addComponent(jLabel3))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(53, 53, 53)
-                        .addComponent(jLabel4)))
-                .addContainerGap(167, Short.MAX_VALUE))
+            .addGap(0, 423, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addComponent(jLabel3)
-                .addGap(45, 45, 45)
-                .addComponent(jLabel4)
-                .addContainerGap(163, Short.MAX_VALUE))
+            .addGap(0, 373, Short.MAX_VALUE)
         );
 
         pack();
@@ -86,11 +66,9 @@ public class Lupa_Password extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new Lupa_Password().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new Tampilan_Rekening().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     // End of variables declaration//GEN-END:variables
 }
