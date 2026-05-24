@@ -1,14 +1,11 @@
 com\ebanking\model\User.class
-com\ebanking\view\Register.class
-com\ebanking\view\Register$1.class
-com\ebanking\view\LoginForm$3.class
 com\ebanking\view\Lupa_Password.class
+com\ebanking\view\Register.class
 com\mycompany\ebank\EBank.class
 com\ebanking\dao\UserDAO.class
 com\ebanking\view\LoginForm$2.class
 com\ebanking\view\LoginForm.class
 com\ebanking\view\LoginForm$4.class
 com\ebanking\view\LoginForm$1.class
-com\ebanking\view\IsiBank.class
 com\ebanking\view\Pass_Baru.class
-com\ebanking\model\Create_Account.class
+com\ebanking\view\LoginForm$3.class
