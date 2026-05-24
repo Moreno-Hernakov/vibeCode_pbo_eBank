@@ -21,8 +21,6 @@ public class LoginForm extends javax.swing.JFrame {
         userDAO = new UserDAO();
         initComponents();
         setLocationRelativeTo(null);
-        jPanel2.setBackground(Color.RED);
-        
 
     }
 
@@ -77,8 +75,7 @@ public class LoginForm extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Dompetku");
         setBackground(new java.awt.Color(255, 51, 51));
-        setPreferredSize(800,800
-        );
+        setPreferredSize(new java.awt.Dimension(800, 800));
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Login Form");
