@@ -12,14 +12,14 @@ package com.ebanking.view;
  *
  * @author user
  */
-public class Register1 extends javax.swing.JFrame {
+public class RegisterConfirm extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Register.class.getName());
 
     /**
      * Creates new form Register
      */
-    public Register1() {
+    public RegisterConfirm() {
         initComponents();
         
     }
