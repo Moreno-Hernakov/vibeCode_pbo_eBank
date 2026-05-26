@@ -6,6 +6,7 @@ public class User {
     private String password;
     private String cifNumber;
     private String status;
+    private java.util.List<Menu> menus;
 
     public User() {}
 
@@ -32,4 +33,7 @@ public class User {
 
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
+
+    public java.util.List<Menu> getMenus() { return menus; }
+    public void setMenus(java.util.List<Menu> menus) { this.menus = menus; }
 }

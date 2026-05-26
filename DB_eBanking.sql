@@ -204,6 +204,8 @@ BEGIN
         IF v_db_password = p_password THEN
             INSERT INTO h_login_log (cif_number, status) VALUES (v_cif_number, 'SUCCESS');
             SET r_response_code = '00';
+            -- Return Menu List
+            SELECT menu_title, route_path FROM m_menu WHERE is_active = 1;
         ELSE
             INSERT INTO h_login_log (cif_number, status) VALUES (v_cif_number, 'FAILED');
             SET r_response_code = '03';
@@ -261,6 +263,13 @@ BEGIN
             failed_attempts = failed_attempts + 1,
             last_failed_login = NOW(),
             status = CASE WHEN failed_attempts + 1 >= 3 THEN 'LOCKED' ELSE status END,
+            updated = NOW()
+        WHERE cif_number = NEW.cif_number;
+    END IF;
+END //
+
+DELIMITER ;
+THEN 'LOCKED' ELSE status END,
             updated = NOW()
         WHERE cif_number = NEW.cif_number;
     END IF;

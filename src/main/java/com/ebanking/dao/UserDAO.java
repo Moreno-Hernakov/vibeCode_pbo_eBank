@@ -28,12 +28,24 @@ public class UserDAO {
             stmt.setString(2, password);
             stmt.registerOutParameter(3, Types.VARCHAR);
             
-            stmt.execute();
-            
+            boolean hasResultSet = stmt.execute();
             String responseCode = stmt.getString(3);
             
-            if ("00".equals(responseCode)) {
-                return getUserByUsername(username);
+            if (com.ebanking.config.ResponseHelper.isSuccess(responseCode)) {
+                User user = getUserByUsername(username);
+                if (user != null && hasResultSet) {
+                    java.util.List<com.ebanking.model.Menu> menuList = new java.util.ArrayList<>();
+                    try (ResultSet rs = stmt.getResultSet()) {
+                        while (rs.next()) {
+                            menuList.add(new com.ebanking.model.Menu(
+                                rs.getString("menu_title"),
+                                rs.getString("route_path")
+                            ));
+                        }
+                    }
+                    user.setMenus(menuList);
+                }
+                return user;
             } else {
                 System.out.println("Login Gagal: Response Code " + responseCode);
             }
