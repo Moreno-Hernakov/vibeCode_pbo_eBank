@@ -23,6 +23,13 @@ CREATE TABLE m_user (
     updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
 
+CREATE TABLE m_menu (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    menu_title VARCHAR(100) NOT NULL,
+    route_path VARCHAR(100) NOT NULL,
+    is_active BOOLEAN DEFAULT TRUE
+) ENGINE=InnoDB;
+
 CREATE TABLE m_password_history (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) NOT NULL,
@@ -176,6 +183,13 @@ INSERT INTO m_user (username, password, cif_number, status) VALUES
 ('budi_hartono', '$2a$12$eImiTxAk4vmMZdG84IXtneX', 'CIF001', 'ACTIVE'),
 ('siti_aminah', '$2a$12$L8b0VbXOnW1vN9oI2K2OueE', 'CIF002', 'ACTIVE');
 
+INSERT INTO m_menu (menu_title, route_path) VALUES 
+('Dashboard', '/dashboard'),
+('Transfer', '/transfer'),
+('Mutasi Rekening', '/mutasi'),
+('Pembayaran', '/pembayaran'),
+('Logout', '/logout');
+
 -- =============================================================================
 -- 5. STORED PROCEDURES
 -- =============================================================================
@@ -263,13 +277,6 @@ BEGIN
             failed_attempts = failed_attempts + 1,
             last_failed_login = NOW(),
             status = CASE WHEN failed_attempts + 1 >= 3 THEN 'LOCKED' ELSE status END,
-            updated = NOW()
-        WHERE cif_number = NEW.cif_number;
-    END IF;
-END //
-
-DELIMITER ;
-THEN 'LOCKED' ELSE status END,
             updated = NOW()
         WHERE cif_number = NEW.cif_number;
     END IF;
