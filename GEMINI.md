@@ -24,5 +24,6 @@ Karena project database (`DB_eBanking.sql`) dikerjakan secara paralel dan sering
 *   **Audit Check**: Setiap kali ada instruksi untuk membaca atau memodifikasi `DB_eBanking.sql`, cek keberadaan tabel `m_menu` dan logic ResultSet pada `sp_login_user`.
 *   **Auto-Injection**: Jika fitur menu hilang karena file tertimpa, AI wajib menawarkan untuk menyuntikkan kembali (re-patch) skema menu sesuai dengan `plans/dynamic-menu-implementation.md`.
 *   **Consistency**: Pastikan `sp_login_user` selalu mengembalikan `ResultSet` menu jika login sukses (`00`) agar backend Java tidak error.
+*   **Single Database Mandate**: Setiap kali ada update SQL atau skema baru, semua tabel WAJIB disatukan ke dalam satu database saja (default: `db_ebanking`). Jangan dipisah-pindah jadi banyak database biar koneksi di Java kaga ribet.
 
 
