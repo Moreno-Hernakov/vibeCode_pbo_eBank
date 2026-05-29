@@ -3,6 +3,7 @@ package com.ebanking.dao;
 import com.ebanking.model.User;
 import com.ebanking.model.Menu;
 import com.ebanking.config.ResponseHelper;
+import org.mindrot.jbcrypt.BCrypt;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,39 +23,54 @@ public class UserDAO implements BaseDAO<User> {
     }
     
     public User login(String username, String password) {
-        String sql = "{CALL sp_login_user(?, ?, ?)}";
+        final String cleanUsername = (username != null) ? username.trim() : "";
+        final String cleanPassword = (password != null) ? password.trim() : "";
         
+        System.out.println("DEBUG: Memulai login untuk user: [" + cleanUsername + "]");
+        
+        User user = getByUsername(cleanUsername);
+        
+        if (user == null) {
+            System.out.println("DEBUG: Login Gagal: User tidak ditemukan.");
+            return null;
+        }
+
+        // Verify with BCrypt
+        if (!BCrypt.checkpw(cleanPassword, user.getPassword())) {
+            System.out.println("DEBUG: Password salah untuk user: " + cleanUsername);
+            return null;
+        }
+
+        String sql = "{CALL sp_login_user(?, ?, ?)}";
         try (Connection conn = getConnection();
              CallableStatement stmt = conn.prepareCall(sql)) {
             
-            stmt.setString(1, username);
-            stmt.setString(2, password);
+            stmt.setString(1, cleanUsername);
+            stmt.setString(2, user.getPassword()); 
             stmt.registerOutParameter(3, Types.VARCHAR);
             
             boolean hasResultSet = stmt.execute();
-            String responseCode = stmt.getString(3);
             
-            if (ResponseHelper.isSuccess(responseCode)) {
-                User user = getByUsername(username);
-                if (user != null && hasResultSet) {
-                    List<Menu> menuList = new ArrayList<>();
-                    try (ResultSet rs = stmt.getResultSet()) {
-                        while (rs.next()) {
-                            menuList.add(new Menu(
-                                rs.getString("menu_title"),
-                                rs.getString("route_path")
-                            ));
-                        }
+            List<Menu> menuList = new ArrayList<>();
+            if (hasResultSet) {
+                try (ResultSet rs = stmt.getResultSet()) {
+                    while (rs.next()) {
+                        menuList.add(new Menu(
+                            rs.getString("menu_title"),
+                            rs.getString("route_path")
+                        ));
                     }
-                    user.setMenus(menuList);
                 }
+            }
+            
+            String responseCode = stmt.getString(3);
+            if (ResponseHelper.isSuccess(responseCode)) {
+                user.setMenus(menuList);
                 return user;
-            } else {
-                System.out.println("Login Gagal: Response Code " + responseCode);
             }
             
         } catch (SQLException e) {
-            System.err.println("Error saat login: " + e.getMessage());
+            System.err.println("SQLException: " + e.getMessage());
         }
         return null;
     }
@@ -67,13 +83,13 @@ public class UserDAO implements BaseDAO<User> {
             stmt.setString(1, username);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    return new User(
-                        rs.getLong("id"),
-                        rs.getString("username"),
-                        rs.getString("password"),
-                        rs.getString("cif_number"),
-                        rs.getString("status")
-                    );
+                    User user = new User();
+                    user.setId(rs.getLong("id"));
+                    user.setUsername(rs.getString("username"));
+                    user.setPassword(rs.getString("password").trim());
+                    user.setCifNumber(rs.getString("cif_number"));
+                    user.setStatus(rs.getString("status"));
+                    return user;
                 }
             }
         } catch (SQLException e) {
@@ -91,13 +107,13 @@ public class UserDAO implements BaseDAO<User> {
             stmt.setLong(1, id);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    return new User(
-                        rs.getLong("id"),
-                        rs.getString("username"),
-                        rs.getString("password"),
-                        rs.getString("cif_number"),
-                        rs.getString("status")
-                    );
+                    User user = new User();
+                    user.setId(rs.getLong("id"));
+                    user.setUsername(rs.getString("username"));
+                    user.setPassword(rs.getString("password"));
+                    user.setCifNumber(rs.getString("cif_number"));
+                    user.setStatus(rs.getString("status"));
+                    return user;
                 }
             }
         } catch (SQLException e) {
@@ -115,13 +131,13 @@ public class UserDAO implements BaseDAO<User> {
              ResultSet rs = stmt.executeQuery(sql)) {
             
             while (rs.next()) {
-                users.add(new User(
-                    rs.getLong("id"),
-                    rs.getString("username"),
-                    rs.getString("password"),
-                    rs.getString("cif_number"),
-                    rs.getString("status")
-                ));
+                User user = new User();
+                user.setId(rs.getLong("id"));
+                user.setUsername(rs.getString("username"));
+                user.setPassword(rs.getString("password"));
+                user.setCifNumber(rs.getString("cif_number"));
+                user.setStatus(rs.getString("status"));
+                users.add(user);
             }
         } catch (SQLException e) {
             System.err.println("Error getAll: " + e.getMessage());
