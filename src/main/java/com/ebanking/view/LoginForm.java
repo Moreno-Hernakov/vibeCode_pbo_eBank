@@ -208,10 +208,25 @@ public class LoginForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        UserDAO userdao = new UserDAO();
         String username = jTextField1.getText();
         String password = jTextField2.getText();
-        userdao.login(username, password);
+        
+        if (username.isEmpty() || password.isEmpty() || username.equals("Email") || password.equals("Password")) {
+            JOptionPane.showMessageDialog(this, "Username dan Password tidak boleh kosong!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        User userSukses = userDAO.login(username, password);
+        
+        if (userSukses != null) {
+            JOptionPane.showMessageDialog(this, "Login Berhasil! Selamat Datang " + userSukses.getUsername(), "Sukses", JOptionPane.INFORMATION_MESSAGE);
+            // Lanjut ke frame IsiBank
+            IsiBank mainFrame = new IsiBank();
+            mainFrame.setVisible(true);
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(this, "Login Gagal! Periksa kembali Username dan Password lu.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
