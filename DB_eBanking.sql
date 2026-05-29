@@ -198,7 +198,7 @@ INSERT INTO m_limit (feature_code, classification, limit_amount) VALUES
 ('102', 1, 5000000.00);
 
 INSERT INTO m_customer (cif_number, customer_name, customer_phone, customer_email, classification, client_pin) VALUES
-('CIF001', 'BUDI HARTONO', '081234567890', 'budi@gmail.com', 1, '$2a$12$hashedpin1'),
+('CIF001', 'BUDI HARTONO', '081234567890', 'budi@gmail.com', 1, '$2a$12$0jV4CgUf9VXALiQ4xAb3Lu36I70a8.t1CQvecTp6Woq0AAq1iEfwW'),
 ('CIF002', 'SITI AMINAH', '081122334455', 'siti@gmail.com', 2, '$2a$12$hashedpin2');
 
 INSERT INTO m_account (account_number, cif_number, product_type_id, balance) VALUES
@@ -207,8 +207,8 @@ INSERT INTO m_account (account_number, cif_number, product_type_id, balance) VAL
 ('2001001', 'CIF002', 2, 75000000.00);
 
 INSERT INTO m_user (username, password, cif_number, status) VALUES
-('budi_hartono', '$2a$12$eImiTxAk4vmMZdG84IXtneX', 'CIF001', 'ACTIVE'),
-('siti_aminah', '$2a$12$L8b0VbXOnW1vN9oI2K2OueE', 'CIF002', 'ACTIVE');
+('budi_hartono', '$2a$12$0jV4CgUf9VXALiQ4xAb3Lu36I70a8.t1CQvecTp6Woq0AAq1iEfwW', 'CIF001', 'ACTIVE'),
+('siti_aminah', '$2a$12$R9h/cIPz0gi.URQHeNVw6uVpmJNoTuVnIgu6W9U0.4V8Ym1D9vP.y', 'CIF002', 'ACTIVE');
 
 INSERT INTO m_menu (menu_title, route_path) VALUES 
 ('Dashboard', '/dashboard'),
