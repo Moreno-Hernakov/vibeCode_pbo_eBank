@@ -82,7 +82,7 @@ public class IsiBank extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
         jLabel1.setText("Dashboard");
         jPanel5.add(jLabel1);
-        jLabel1.setBounds(40, 10, 220, 70);
+        jLabel1.setBounds(0, 0, 230, 70);
 
         jButton1.setBackground(new java.awt.Color(0, 0, 255));
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
