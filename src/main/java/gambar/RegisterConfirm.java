@@ -1,4 +1,4 @@
-package com.ebanking.view;
+package gambar;
 
 public class RegisterConfirm extends javax.swing.JFrame {
     

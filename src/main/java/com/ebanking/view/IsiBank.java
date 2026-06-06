@@ -4,6 +4,9 @@
  */
 package com.ebanking.view;
 
+import java.awt.Color;
+import javax.swing.JButton;
+
 /**
  *
  * @author user
@@ -11,12 +14,31 @@ package com.ebanking.view;
 public class IsiBank extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(IsiBank.class.getName());
-
+    private Color defaultColor = new Color(0, 102, 102);
+    private Color activeColor = new Color(255, 255, 255);
     /**
      * Creates new form IsiBank
      */
     public IsiBank() {
         initComponents();
+        
+    }
+    
+    private void resetButton() {
+      
+    jButton1.setBackground(defaultColor);
+    jButton2.setBackground(defaultColor);
+    jButton3.setBackground(defaultColor);
+    jButton4.setBackground(defaultColor);
+    jButton5.setBackground(defaultColor);
+    jButton6.setBackground(defaultColor);
+    jButton7.setBackground(defaultColor);
+    jButton8.setBackground(defaultColor);
+    }
+    
+    private void setActive(JButton btn) {
+    resetButton();
+    btn.setBackground(activeColor);
     }
 
     /**
@@ -36,8 +58,9 @@ public class IsiBank extends javax.swing.JFrame {
         menu2 = new java.awt.Menu();
         jPanel1 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        jPanel5 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -73,92 +96,101 @@ public class IsiBank extends javax.swing.JFrame {
 
         jPanel1.setLayout(null);
 
-        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel4.setBackground(new java.awt.Color(153, 153, 153));
         jPanel4.setPreferredSize(new java.awt.Dimension(940, 900));
+        jPanel4.setLayout(null);
 
-        jPanel5.setBackground(new java.awt.Color(0, 0, 255));
+        jPanel3.setBackground(new java.awt.Color(0, 102, 102));
+
+        jLabel1.setFont(new java.awt.Font("Showcard Gothic", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Dashboard");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(39, 39, 39)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(651, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(24, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(16, 16, 16))
+        );
+
+        jPanel4.add(jPanel3);
+        jPanel3.setBounds(0, 0, 880, 140);
+
+        jPanel5.setBackground(new java.awt.Color(0, 102, 102));
         jPanel5.setLayout(null);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
-        jLabel1.setText("Dashboard");
-        jPanel5.add(jLabel1);
-        jLabel1.setBounds(0, 0, 230, 70);
-
-        jButton1.setBackground(new java.awt.Color(0, 0, 255));
+        jButton1.setBackground(new java.awt.Color(0, 102, 102));
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("jButton1");
+        jButton1.addActionListener(this::jButton1ActionPerformed);
         jPanel5.add(jButton1);
-        jButton1.setBounds(30, 100, 150, 23);
+        jButton1.setBounds(0, 150, 230, 30);
 
-        jButton2.setBackground(new java.awt.Color(0, 0, 255));
+        jButton2.setBackground(new java.awt.Color(0, 102, 102));
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("jButton2");
         jButton2.addActionListener(this::jButton2ActionPerformed);
         jPanel5.add(jButton2);
-        jButton2.setBounds(30, 120, 150, 23);
+        jButton2.setBounds(0, 180, 230, 30);
 
-        jButton3.setBackground(new java.awt.Color(51, 51, 255));
+        jButton3.setBackground(new java.awt.Color(0, 102, 102));
         jButton3.setForeground(new java.awt.Color(255, 255, 255));
         jButton3.setText("jButton3");
+        jButton3.addActionListener(this::jButton3ActionPerformed);
         jPanel5.add(jButton3);
-        jButton3.setBounds(30, 140, 150, 23);
+        jButton3.setBounds(0, 210, 230, 30);
 
-        jButton4.setBackground(new java.awt.Color(0, 0, 255));
+        jButton4.setBackground(new java.awt.Color(0, 102, 102));
         jButton4.setForeground(new java.awt.Color(255, 255, 255));
         jButton4.setText("jButton4");
+        jButton4.addActionListener(this::jButton4ActionPerformed);
         jPanel5.add(jButton4);
-        jButton4.setBounds(30, 160, 150, 23);
+        jButton4.setBounds(0, 240, 230, 30);
 
-        jButton5.setBackground(new java.awt.Color(0, 0, 255));
+        jButton5.setBackground(new java.awt.Color(0, 102, 102));
         jButton5.setForeground(new java.awt.Color(255, 255, 255));
         jButton5.setText("jButton5");
         jButton5.addActionListener(this::jButton5ActionPerformed);
         jPanel5.add(jButton5);
-        jButton5.setBounds(30, 180, 150, 23);
+        jButton5.setBounds(0, 270, 230, 30);
 
-        jButton6.setBackground(new java.awt.Color(0, 0, 255));
+        jButton6.setBackground(new java.awt.Color(0, 102, 102));
         jButton6.setForeground(new java.awt.Color(255, 255, 255));
         jButton6.setText("jButton6");
+        jButton6.addActionListener(this::jButton6ActionPerformed);
         jPanel5.add(jButton6);
-        jButton6.setBounds(30, 200, 150, 23);
+        jButton6.setBounds(0, 300, 230, 30);
 
-        jButton7.setBackground(new java.awt.Color(0, 0, 255));
+        jButton7.setBackground(new java.awt.Color(0, 102, 102));
         jButton7.setForeground(new java.awt.Color(255, 255, 255));
         jButton7.setText("jButton7");
         jButton7.addActionListener(this::jButton7ActionPerformed);
         jPanel5.add(jButton7);
-        jButton7.setBounds(30, 220, 150, 30);
+        jButton7.setBounds(0, 330, 230, 30);
 
-        jButton8.setBackground(new java.awt.Color(0, 0, 255));
+        jButton8.setBackground(new java.awt.Color(0, 102, 102));
         jButton8.setForeground(new java.awt.Color(255, 255, 255));
         jButton8.setText("jButton8");
         jButton8.addActionListener(this::jButton8ActionPerformed);
         jPanel5.add(jButton8);
-        jButton8.setBounds(30, 250, 150, 30);
+        jButton8.setBounds(0, 360, 230, 30);
+
+        jPanel4.add(jPanel5);
+        jPanel5.setBounds(6, 0, 228, 517);
 
         jPanel2.setLayout(null);
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 641, Short.MAX_VALUE)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(64, 64, 64))
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 517, Short.MAX_VALUE))
-                .addContainerGap())
-        );
+        jPanel4.add(jPanel2);
+        jPanel2.setBounds(1120, 0, 0, 0);
 
         jPanel1.add(jPanel4);
         jPanel4.setBounds(-10, 0, 940, 523);
@@ -177,21 +209,37 @@ public class IsiBank extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
-
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        // TODO add your handling code here:
+       setActive(jButton8); // TODO add your handling code here:
     }//GEN-LAST:event_jButton8ActionPerformed
 
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        setActive(jButton7);        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton7ActionPerformed
+
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
+        setActive(jButton1);        // TODO add your handling code here:
     }//GEN-LAST:event_jButton5ActionPerformed
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton7ActionPerformed
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        setActive(jButton2);// TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        setActive(jButton1);        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        setActive(jButton3);        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        setActive(jButton4);        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        setActive(jButton6);        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton6ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -233,6 +281,7 @@ public class IsiBank extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private java.awt.Menu menu1;
