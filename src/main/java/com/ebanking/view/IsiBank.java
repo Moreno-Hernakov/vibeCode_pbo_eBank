@@ -76,53 +76,65 @@ public class IsiBank extends javax.swing.JFrame {
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setPreferredSize(new java.awt.Dimension(940, 900));
 
-        jPanel5.setBackground(new java.awt.Color(51, 153, 255));
+        jPanel5.setBackground(new java.awt.Color(0, 0, 255));
         jPanel5.setLayout(null);
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
         jLabel1.setText("Dashboard");
         jPanel5.add(jLabel1);
-        jLabel1.setBounds(33, 41, 57, 16);
+        jLabel1.setBounds(40, 10, 220, 70);
 
+        jButton1.setBackground(new java.awt.Color(0, 0, 255));
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("jButton1");
         jPanel5.add(jButton1);
-        jButton1.setBounds(30, 90, 75, 23);
+        jButton1.setBounds(30, 100, 150, 23);
 
-        jButton2.setForeground(new java.awt.Color(255, 102, 102));
+        jButton2.setBackground(new java.awt.Color(0, 0, 255));
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("jButton2");
         jButton2.addActionListener(this::jButton2ActionPerformed);
         jPanel5.add(jButton2);
-        jButton2.setBounds(30, 110, 75, 23);
+        jButton2.setBounds(30, 120, 150, 23);
 
+        jButton3.setBackground(new java.awt.Color(51, 51, 255));
         jButton3.setForeground(new java.awt.Color(255, 255, 255));
         jButton3.setText("jButton3");
         jPanel5.add(jButton3);
-        jButton3.setBounds(30, 130, 75, 23);
+        jButton3.setBounds(30, 140, 150, 23);
 
+        jButton4.setBackground(new java.awt.Color(0, 0, 255));
         jButton4.setForeground(new java.awt.Color(255, 255, 255));
         jButton4.setText("jButton4");
         jPanel5.add(jButton4);
-        jButton4.setBounds(30, 150, 75, 23);
+        jButton4.setBounds(30, 160, 150, 23);
 
+        jButton5.setBackground(new java.awt.Color(0, 0, 255));
         jButton5.setForeground(new java.awt.Color(255, 255, 255));
         jButton5.setText("jButton5");
+        jButton5.addActionListener(this::jButton5ActionPerformed);
         jPanel5.add(jButton5);
-        jButton5.setBounds(30, 170, 75, 23);
+        jButton5.setBounds(30, 180, 150, 23);
 
+        jButton6.setBackground(new java.awt.Color(0, 0, 255));
         jButton6.setForeground(new java.awt.Color(255, 255, 255));
         jButton6.setText("jButton6");
         jPanel5.add(jButton6);
-        jButton6.setBounds(30, 190, 75, 23);
+        jButton6.setBounds(30, 200, 150, 23);
 
+        jButton7.setBackground(new java.awt.Color(0, 0, 255));
         jButton7.setForeground(new java.awt.Color(255, 255, 255));
         jButton7.setText("jButton7");
+        jButton7.addActionListener(this::jButton7ActionPerformed);
         jPanel5.add(jButton7);
-        jButton7.setBounds(30, 210, 75, 23);
+        jButton7.setBounds(30, 220, 150, 30);
 
+        jButton8.setBackground(new java.awt.Color(0, 0, 255));
         jButton8.setForeground(new java.awt.Color(255, 255, 255));
         jButton8.setText("jButton8");
+        jButton8.addActionListener(this::jButton8ActionPerformed);
         jPanel5.add(jButton8);
-        jButton8.setBounds(30, 230, 75, 23);
+        jButton8.setBounds(30, 250, 150, 30);
 
         jPanel2.setLayout(null);
 
@@ -132,17 +144,20 @@ public class IsiBank extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 722, Short.MAX_VALUE)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 641, Short.MAX_VALUE)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(64, 64, 64))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 523, Short.MAX_VALUE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 517, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jPanel1.add(jPanel4);
@@ -165,6 +180,18 @@ public class IsiBank extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton7ActionPerformed
 
     /**
      * @param args the command line arguments

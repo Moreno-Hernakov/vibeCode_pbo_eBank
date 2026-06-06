@@ -19,3 +19,16 @@ Proyek ini harus rapi dengan pembagian package sebagai berikut:
 
 Jangan pernah nyampur logic database di dalam class View. Selalu pake DAO sebagai perantara. Gue mau proyek ini gampang di-maintain dan kelihatan pro.
 
+## 3. SQL Synchronizer (Dynamic Menu Guard)
+Karena project database (`DB_eBanking.sql`) dikerjakan secara paralel dan sering ditimpa dengan versi yang tidak memiliki fitur Menu, AI wajib melakukan hal berikut:
+*   **Audit Check**: Setiap kali ada instruksi untuk membaca atau memodifikasi `DB_eBanking.sql`, cek keberadaan tabel `m_menu` dan logic ResultSet pada `sp_login_user`.
+*   **Auto-Injection**: Jika fitur menu hilang karena file tertimpa, AI wajib menawarkan untuk menyuntikkan kembali (re-patch) skema menu sesuai dengan `plans/dynamic-menu-implementation.md`.
+*   **Consistency**: Pastikan `sp_login_user` selalu mengembalikan `ResultSet` menu jika login sukses (`00`) agar backend Java tidak error.
+*   **Single Database Mandate**: Setiap kali ada update SQL atau skema baru, semua tabel WAJIB disatukan ke dalam satu database saja (default: `db_ebanking`). Jangan dipisah-pindah jadi banyak database biar koneksi di Java kaga ribet.
+*   **Maven Dependency Management**: Proyek ini pake Maven. Kalo ada error "Driver tidak ditemukan" atau library kurang, JANGAN tambah JAR manual ke folder project. Caranya:
+    1. Cek `pom.xml`, pastikan `mysql-connector-j` udah ada.
+    2. Di NetBeans, buka panel **Projects** (Ctrl+1) -> Folder **Dependencies**.
+    3. Klik kanan di **Nama Project** -> **Clean and Build** buat maksa Maven download library yang kurang.
+    4. Pastikan `Class.forName("com.mysql.cj.jdbc.Driver")` dipake buat MySQL 8.0+.
+
+

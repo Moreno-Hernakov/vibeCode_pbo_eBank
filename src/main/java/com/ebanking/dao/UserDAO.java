@@ -1,10 +1,14 @@
 package com.ebanking.dao;
 
 import com.ebanking.model.User;
+import com.ebanking.model.Menu;
+import com.ebanking.config.ResponseHelper;
+import org.mindrot.jbcrypt.BCrypt;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public class UserDAO {
-    // Logic koneksi pindah kesini biar gak ribet katanya
+public class UserDAO implements BaseDAO<User> {
     private static final String URL = "jdbc:mysql://localhost:3306/db_ebanking"; 
     private static final String USER = "root";
     private static final String PASSWORD = ""; 
@@ -19,51 +23,174 @@ public class UserDAO {
     }
     
     public User login(String username, String password) {
-        String sql = "{CALL sp_login_user(?, ?, ?)}";
+        final String cleanUsername = (username != null) ? username.trim() : "";
+        final String cleanPassword = (password != null) ? password.trim() : "";
         
+        System.out.println("DEBUG: Memulai login untuk user: [" + cleanUsername + "]");
+        
+        User user = getByUsername(cleanUsername);
+        
+        if (user == null) {
+            System.out.println("DEBUG: Login Gagal: User tidak ditemukan.");
+            return null;
+        }
+
+        // Verify with BCrypt
+        if (!BCrypt.checkpw(cleanPassword, user.getPassword())) {
+            System.out.println("DEBUG: Password salah untuk user: " + cleanUsername);
+            return null;
+        }
+
+        String sql = "{CALL sp_login_user(?, ?, ?)}";
         try (Connection conn = getConnection();
              CallableStatement stmt = conn.prepareCall(sql)) {
             
-            stmt.setString(1, username);
-            stmt.setString(2, password);
+            stmt.setString(1, cleanUsername);
+            stmt.setString(2, user.getPassword()); 
             stmt.registerOutParameter(3, Types.VARCHAR);
             
-            stmt.execute();
+            boolean hasResultSet = stmt.execute();
+            
+            List<Menu> menuList = new ArrayList<>();
+            if (hasResultSet) {
+                try (ResultSet rs = stmt.getResultSet()) {
+                    while (rs.next()) {
+                        menuList.add(new Menu(
+                            rs.getString("menu_title"),
+                            rs.getString("route_path")
+                        ));
+                    }
+                }
+            }
             
             String responseCode = stmt.getString(3);
-            
-            if ("00".equals(responseCode)) {
-                return getUserByUsername(username);
-            } else {
-                System.out.println("Login Gagal: Response Code " + responseCode);
+            if (ResponseHelper.isSuccess(responseCode)) {
+                user.setMenus(menuList);
+                return user;
             }
             
         } catch (SQLException e) {
-            System.err.println("Error saat login: " + e.getMessage());
+            System.err.println("SQLException: " + e.getMessage());
         }
         return null;
     }
 
-    private User getUserByUsername(String username) {
+    public User getByUsername(String username) {
         String sql = "SELECT * FROM m_user WHERE username = ?";
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             
             stmt.setString(1, username);
-            ResultSet rs = stmt.executeQuery();
-            
-            if (rs.next()) {
-                return new User(
-                    rs.getLong("id"),
-                    rs.getString("username"),
-                    rs.getString("password"),
-                    rs.getString("cif_number"),
-                    rs.getString("status")
-                );
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    User user = new User();
+                    user.setId(rs.getLong("id"));
+                    user.setUsername(rs.getString("username"));
+                    user.setPassword(rs.getString("password").trim());
+                    user.setCifNumber(rs.getString("cif_number"));
+                    user.setStatus(rs.getString("status"));
+                    return user;
+                }
             }
         } catch (SQLException e) {
             System.err.println("Error ambil data user: " + e.getMessage());
         }
         return null;
+    }
+
+    @Override
+    public User getById(Long id) {
+        String sql = "SELECT * FROM m_user WHERE id = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setLong(1, id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    User user = new User();
+                    user.setId(rs.getLong("id"));
+                    user.setUsername(rs.getString("username"));
+                    user.setPassword(rs.getString("password"));
+                    user.setCifNumber(rs.getString("cif_number"));
+                    user.setStatus(rs.getString("status"));
+                    return user;
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error getById: " + e.getMessage());
+        }
+        return null;
+    }
+
+    @Override
+    public List<User> getAll() {
+        List<User> users = new ArrayList<>();
+        String sql = "SELECT * FROM m_user";
+        try (Connection conn = getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            
+            while (rs.next()) {
+                User user = new User();
+                user.setId(rs.getLong("id"));
+                user.setUsername(rs.getString("username"));
+                user.setPassword(rs.getString("password"));
+                user.setCifNumber(rs.getString("cif_number"));
+                user.setStatus(rs.getString("status"));
+                users.add(user);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error getAll: " + e.getMessage());
+        }
+        return users;
+    }
+
+    @Override
+    public boolean save(User entity) {
+        String sql = "INSERT INTO m_user (username, password, cif_number, status) VALUES (?, ?, ?, ?)";
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setString(1, entity.getUsername());
+            stmt.setString(2, entity.getPassword());
+            stmt.setString(3, entity.getCifNumber());
+            stmt.setString(4, entity.getStatus());
+            
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.err.println("Error save user: " + e.getMessage());
+            return false;
+        }
+    }
+
+    @Override
+    public boolean update(User entity) {
+        String sql = "UPDATE m_user SET password = ?, status = ? WHERE username = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setString(1, entity.getPassword());
+            stmt.setString(2, entity.getStatus());
+            stmt.setString(3, entity.getUsername());
+            
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.err.println("Error update user: " + e.getMessage());
+            return false;
+        }
+    }
+
+    @Override
+    public boolean delete(Long id) {
+        String sql = "DELETE FROM m_user WHERE id = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setLong(1, id);
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.err.println("Error delete user: " + e.getMessage());
+            return false;
+        }
     }
 }
