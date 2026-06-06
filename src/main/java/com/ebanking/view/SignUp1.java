@@ -2,10 +2,10 @@
 package com.ebanking.view;
 
 
-public class SignUp extends javax.swing.JFrame {
+public class SignUp1 extends javax.swing.JFrame {
 
  
-    public SignUp() {
+    public SignUp1() {
         initComponents();
     }
 
