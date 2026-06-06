@@ -4,7 +4,8 @@
 
 package com.mycompany.ebank;
 
-import com.ebanking.view.LoginForm;
+//import com.ebanking.view.LoginForm;
+import com.ebanking.view.SignUp;
 import javax.swing.SwingUtilities;
 
 /**
@@ -15,7 +16,10 @@ public class EBank {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            new LoginForm().setVisible(true);
+            SignUp SignUpFrame = new SignUp();
+            SignUpFrame.setVisible(true);
+            SignUpFrame.pack();
+            SignUpFrame.setLocationRelativeTo(null); 
         });
     }
 }
