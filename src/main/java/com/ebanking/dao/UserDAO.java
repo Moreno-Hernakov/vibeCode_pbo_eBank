@@ -3,23 +3,16 @@ package com.ebanking.dao;
 import com.ebanking.model.User;
 import com.ebanking.model.Menu;
 import com.ebanking.config.ResponseHelper;
+import com.ebanking.config.DBConnection;
 import org.mindrot.jbcrypt.BCrypt;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAO implements BaseDAO<User> {
-    private static final String URL = "jdbc:mysql://localhost:3306/db_ebanking"; 
-    private static final String USER = "root";
-    private static final String PASSWORD = ""; 
 
     private Connection getConnection() throws SQLException {
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            System.err.println("Driver tidak ditemukan: " + e.getMessage());
-        }
-        return DriverManager.getConnection(URL, USER, PASSWORD);
+        return DBConnection.getConnection();
     }
     
     public User login(String username, String password) {
