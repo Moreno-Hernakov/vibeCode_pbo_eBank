@@ -4,7 +4,6 @@ import com.ebanking.model.User;
 import com.ebanking.model.Menu;
 import com.ebanking.config.ResponseHelper;
 import com.ebanking.config.DBConnection;
-import org.mindrot.jbcrypt.BCrypt;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,34 +15,19 @@ public class UserDAO implements BaseDAO<User> {
     }
     
     public User login(String username, String password) {
-        final String cleanUsername = (username != null) ? username.trim() : "";
-        final String cleanPassword = (password != null) ? password.trim() : "";
-        
-        System.out.println("DEBUG: Memulai login untuk user: [" + cleanUsername + "]");
-        
-        User user = getByUsername(cleanUsername);
-        
-        if (user == null) {
-            System.out.println("DEBUG: Login Gagal: User tidak ditemukan.");
-            return null;
-        }
-
-        // Verify with BCrypt
-        if (!BCrypt.checkpw(cleanPassword, user.getPassword())) {
-            System.out.println("DEBUG: Password salah untuk user: " + cleanUsername);
-            return null;
-        }
+        String cleanUsername = (username != null) ? username.trim() : "";
+        String cleanPassword = (password != null) ? password.trim() : "";
 
         String sql = "{CALL sp_login_user(?, ?, ?)}";
         try (Connection conn = getConnection();
              CallableStatement stmt = conn.prepareCall(sql)) {
-            
+
             stmt.setString(1, cleanUsername);
-            stmt.setString(2, user.getPassword()); 
+            stmt.setString(2, cleanPassword);
             stmt.registerOutParameter(3, Types.VARCHAR);
-            
+
             boolean hasResultSet = stmt.execute();
-            
+
             List<Menu> menuList = new ArrayList<>();
             if (hasResultSet) {
                 try (ResultSet rs = stmt.getResultSet()) {
@@ -55,15 +39,18 @@ public class UserDAO implements BaseDAO<User> {
                     }
                 }
             }
-            
+
             String responseCode = stmt.getString(3);
             if (ResponseHelper.isSuccess(responseCode)) {
-                user.setMenus(menuList);
+                User user = getByUsername(cleanUsername);
+                if (user != null) {
+                    user.setMenus(menuList);
+                }
                 return user;
             }
-            
+
         } catch (SQLException e) {
-            System.err.println("SQLException: " + e.getMessage());
+            System.err.println("SQLException login: " + e.getMessage());
         }
         return null;
     }

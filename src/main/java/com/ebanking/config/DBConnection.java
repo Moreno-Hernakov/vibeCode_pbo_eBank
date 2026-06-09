@@ -30,7 +30,7 @@ public class DBConnection {
      * Binding parameter PreparedStatement secara dinamis pake Object.
      * Lebih type-safe daripada dipaksa String semua.
      */
-    private static void fillParameters(PreparedStatement stmt, List<Object> params) throws SQLException {
+    public static void fillParameters(PreparedStatement stmt, List<Object> params) throws SQLException {
         if (params != null) {
             int i = 1;
             for (Object p : params) {
