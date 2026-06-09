@@ -1,12 +1,35 @@
 
 package com.ebanking.view;
 
+import com.ebanking.service.AuthService;
+import com.ebanking.model.User;
+import javax.swing.JOptionPane;
 
 public class SignIn extends javax.swing.JFrame {
 
-  
+    private final AuthService authService = new AuthService();
+
     public SignIn() {
         initComponents();
+        jButton1.addActionListener(e -> doLogin());
+    }
+
+    private void doLogin() {
+        String username = jTextField1.getText();
+        String password = new String(jPasswordField1.getPassword());
+
+        User user = authService.login(username, password);
+
+        if (user != null) {
+            JOptionPane.showMessageDialog(this,
+                "Login berhasil! Selamat datang, " + user.getUsername(),
+                "Success", JOptionPane.INFORMATION_MESSAGE);
+            // TODO: navigate ke dashboard
+        } else {
+            JOptionPane.showMessageDialog(this,
+                "Username atau password salah.",
+                "Login Gagal", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
  
