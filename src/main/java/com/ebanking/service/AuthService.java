@@ -7,8 +7,10 @@ public class AuthService {
     private final UserDAO userDAO = new UserDAO();
 
     public User login(String username, String password) {
-        if (username == null || username.trim().isEmpty()) return null;
-        if (password == null || password.trim().isEmpty()) return null;
         return userDAO.login(username, password);
+    }
+    
+    public User register (String name, String phone, String email, String username, String password) {
+        return userDAO.register(name, phone, email, username, password);
     }
 }

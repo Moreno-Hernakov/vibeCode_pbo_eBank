@@ -18,17 +18,43 @@ public class SignIn extends javax.swing.JFrame {
         String username = jTextField1.getText();
         String password = new String(jPasswordField1.getPassword());
 
-        User user = authService.login(username, password);
+        try {
 
-        if (user != null) {
-            JOptionPane.showMessageDialog(this,
-                "Login berhasil! Selamat datang, " + user.getUsername(),
-                "Success", JOptionPane.INFORMATION_MESSAGE);
-            // TODO: navigate ke dashboard
-        } else {
-            JOptionPane.showMessageDialog(this,
-                "Username atau password salah.",
-                "Login Gagal", JOptionPane.ERROR_MESSAGE);
+            User user = authService.login(
+                    username,
+                    password
+            );
+            if (user != null) {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Login berhasil!"
+                );
+                IsiBank dashboard = new IsiBank();
+                dashboard.pack();
+                dashboard.setLocationRelativeTo(null);
+                dashboard.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(this, "Registrasi Gagal!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (RuntimeException e) {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    e.getMessage(),
+                    "Registrasi Gagal",
+                    JOptionPane.ERROR_MESSAGE
+            );
+//        if (user != null) {
+//            JOptionPane.showMessageDialog(this,
+//                "Login berhasil! Selamat datang, " + user.getUsername(),
+//                "Success", JOptionPane.INFORMATION_MESSAGE);
+//                
+//            // TODO: navigate ke dashboard
+//        } else {
+//            JOptionPane.showMessageDialog(this,
+//                "Username atau password salah.",
+//                "Login Gagal", JOptionPane.ERROR_MESSAGE);
+//        }
         }
     }
 

@@ -7,6 +7,7 @@ import com.ebanking.config.DBConnection;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 public class UserDAO implements BaseDAO<User> {
 
@@ -14,13 +15,82 @@ public class UserDAO implements BaseDAO<User> {
         return DBConnection.getConnection();
     }
     
+    public boolean isUsernameExists(String username) {
+        String sql = "SELECT 1 FROM m_user WHERE username = ?";
+
+        try (
+                Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, username);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                return rs.next();
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error cek username: " + e.getMessage());
+            return true;
+        }
+    }
+    
+    public User register(String name, String phone, String email, String username, String password) {
+        if (name == null || name.trim().isEmpty()
+                || phone == null || phone.trim().isEmpty()
+                || email == null || email.trim().isEmpty()
+                || username == null || username.trim().isEmpty()
+                || password == null || password.trim().isEmpty()) {
+
+            throw new RuntimeException("Semua field wajib diisi");
+        }
+
+        if (isUsernameExists(username)) {
+            throw new RuntimeException("Username sudah digunakan");
+        }
+        String sql = "{CALL sp_register_customer(?,?,?,?,?,?,?,?)}";
+        try (Connection conn = getConnection(); CallableStatement stmt = conn.prepareCall(sql)) {
+            stmt.setString(1, name);
+            stmt.setString(2, phone);
+            stmt.setString(3, email);
+            stmt.setString(4, null);
+            stmt.setString(5, username);
+            stmt.setString(6, password);
+            stmt.registerOutParameter(7, Types.VARCHAR);
+            stmt.registerOutParameter(8, Types.VARCHAR);
+
+            stmt.execute();
+
+            String responseCode = stmt.getString(7);
+
+            System.out.println("RC = " + stmt.getString(7));
+            System.out.println("CIF = " + stmt.getString(8));
+
+            if (ResponseHelper.isSuccess(responseCode)) {
+                User user = new User();
+                user.setUsername(username);
+                user.setCifNumber(stmt.getString(8));
+                user.setStatus("ACTIVE");
+
+                return user;
+            } 
+
+        } catch (SQLException e) {
+            System.err.println("SQLException register: " + e.getMessage());
+
+        }
+        return null;
+    }
+
     public User login(String username, String password) {
+        if (username == null || username.trim().isEmpty() || password == null || password.trim().isEmpty()) {
+
+            throw new RuntimeException("Semua field wajib diisi");
+        }
+        
         String cleanUsername = (username != null) ? username.trim() : "";
         String cleanPassword = (password != null) ? password.trim() : "";
 
         String sql = "{CALL sp_login_user(?, ?, ?)}";
-        try (Connection conn = getConnection();
-             CallableStatement stmt = conn.prepareCall(sql)) {
+        try (Connection conn = getConnection(); CallableStatement stmt = conn.prepareCall(sql)) {
 
             stmt.setString(1, cleanUsername);
             stmt.setString(2, cleanPassword);
@@ -33,8 +103,8 @@ public class UserDAO implements BaseDAO<User> {
                 try (ResultSet rs = stmt.getResultSet()) {
                     while (rs.next()) {
                         menuList.add(new Menu(
-                            rs.getString("menu_title"),
-                            rs.getString("route_path")
+                                rs.getString("menu_title"),
+                                rs.getString("route_path")
                         ));
                     }
                 }
@@ -57,9 +127,8 @@ public class UserDAO implements BaseDAO<User> {
 
     public User getByUsername(String username) {
         String sql = "SELECT * FROM m_user WHERE username = ?";
-        try (Connection conn = getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            
+        try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+
             stmt.setString(1, username);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
