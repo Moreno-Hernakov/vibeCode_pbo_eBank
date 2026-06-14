@@ -11,15 +11,15 @@ import javax.swing.JButton;
  *
  * @author user
  */
-public class IsiBank extends javax.swing.JFrame {
+public class Jbutton1 extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(IsiBank.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Jbutton1.class.getName());
     private Color defaultColor = new Color(0, 102, 102);
     private Color activeColor = new Color(255, 255, 255);
     /**
      * Creates new form IsiBank
      */
-    public IsiBank() {
+    public Jbutton1() {
         initComponents();
         
     }
@@ -264,7 +264,7 @@ public class IsiBank extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new IsiBank().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new Jbutton1().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -88,21 +88,21 @@ public class SignUp1 extends javax.swing.JFrame {
 
         jLabel5.setBackground(new java.awt.Color(102, 102, 102));
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel5.setText("Full name");
+        jLabel5.setText("Username");
 
         jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTextField1.setForeground(new java.awt.Color(102, 102, 102));
 
         jLabel6.setBackground(new java.awt.Color(102, 102, 102));
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel6.setText("Nomer Telepon");
+        jLabel6.setText("Password");
 
         jTextField2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTextField2.setForeground(new java.awt.Color(102, 102, 102));
 
         jLabel7.setBackground(new java.awt.Color(102, 102, 102));
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel7.setText("Email");
+        jLabel7.setText("Confirm Password");
 
         jPasswordField1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jPasswordField1.setForeground(new java.awt.Color(102, 102, 102));
@@ -111,7 +111,7 @@ public class SignUp1 extends javax.swing.JFrame {
 
         jButton1.setBackground(new java.awt.Color(0, 102, 102));
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Sign Up");
+        jButton1.setText("UPDATE");
 
         jButton2.setForeground(new java.awt.Color(255, 51, 51));
         jButton2.setText("Login");
