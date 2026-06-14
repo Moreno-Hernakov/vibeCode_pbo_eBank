@@ -256,7 +256,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel4">
               <Properties>
-                <Property name="text" type="java.lang.String" value="I have an account"/>
+                <Property name="text" type="java.lang.String" value="I &apos;ve an account"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="jButton2">
