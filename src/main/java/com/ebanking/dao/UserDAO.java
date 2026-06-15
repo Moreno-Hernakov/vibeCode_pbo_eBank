@@ -33,6 +33,38 @@ public class UserDAO implements BaseDAO<User> {
         }
     }
     
+    public boolean changePass(String username, String old_pass, String new_pass, String new_pass_confirm) {
+        if (!(new_pass.equals(new_pass_confirm))) {
+            throw new RuntimeException("Password yang diisikan harus sama!");
+        } else {
+            String sql = "{CALL sp_change_password(?,?,?,?)}";
+            try (Connection conn = getConnection(); CallableStatement stmt = conn.prepareCall(sql)) {
+                stmt.setString(1, username);
+                stmt.setString(2, old_pass);
+                stmt.setString(3, new_pass_confirm);
+                stmt.registerOutParameter(4, Types.VARCHAR);
+                
+                stmt.execute();
+                
+                String response_code = stmt.getString(4);
+
+                if ("01".equals(response_code)) {
+                    throw new RuntimeException("Salah password, silahkan dicoba kembali");
+
+                } else if ("02".equals(response_code)) {
+                    throw new RuntimeException("Password tidak boleh sama dengan sebelumnya!");
+
+                } else {
+                    return true;
+                }
+
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Change Password Gagal!");
+                return false;
+            }
+        }
+    }
+    
     public User register(String name, String phone, String email, String username, String password) {
         if (name == null || name.trim().isEmpty()
                 || phone == null || phone.trim().isEmpty()
@@ -61,8 +93,6 @@ public class UserDAO implements BaseDAO<User> {
 
             String responseCode = stmt.getString(7);
 
-            System.out.println("RC = " + stmt.getString(7));
-            System.out.println("CIF = " + stmt.getString(8));
 
             if (ResponseHelper.isSuccess(responseCode)) {
                 User user = new User();

@@ -132,7 +132,6 @@ public class Jbutton1 extends javax.swing.JFrame {
         jButton1.setBackground(new java.awt.Color(0, 102, 102));
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("jButton1");
-        jButton1.addActionListener(this::jButton1ActionPerformed);
         jPanel5.add(jButton1);
         jButton1.setBounds(0, 150, 230, 30);
 
@@ -224,11 +223,6 @@ public class Jbutton1 extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         setActive(jButton2);// TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       setActive(jButton1);    
-       new
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         setActive(jButton3);        // TODO add your handling code here:
