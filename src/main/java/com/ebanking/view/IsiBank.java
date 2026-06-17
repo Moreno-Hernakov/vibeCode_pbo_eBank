@@ -4,8 +4,20 @@
  */
 package com.ebanking.view;
 
+import java.awt.CardLayout;
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import com.ebanking.model.Menu;
+import com.ebanking.model.User;
+import com.ebanking.view.page.Router;
+import com.ebanking.view.page.DashboardPage;
+import com.ebanking.view.page.TransferPage;
+import com.ebanking.view.page.MutasiPage;
+import com.ebanking.view.page.PembayaranPage;
 
 /**
  *
@@ -16,24 +28,149 @@ public class IsiBank extends javax.swing.JFrame {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(IsiBank.class.getName());
     private Color defaultColor = new Color(0, 102, 102);
     private Color activeColor = new Color(255, 255, 255);
+
+    /** User yang sedang login; sumber daftar menu untuk sidebar & body. */
+    private User currentUser;
+    /** Referensi tombol sidebar yang dibuat dinamis (untuk reset highlight). */
+    private final List<JButton> menuButtons = new ArrayList<>();
+    /** Router yang mengelola perpindahan halaman body (CardLayout). */
+    private Router router;
+
     /**
-     * Creates new form IsiBank
+     * Creates new form IsiBank (konstruktor default - dipakai untuk testing UI).
      */
     public IsiBank() {
         initComponents();
         
     }
+
+    /**
+     * Konstruktor utama: menerima User hasil login lalu membangun
+     * layout 3-section (header tetap, sidebar dinamis, body swap via CardLayout).
+     */
+    public IsiBank(User user) {
+        this.currentUser = user;
+        initComponents();
+        setupBody();
+        setupRouter();
+        renderMenu();
+    }
+
+    /**
+     * Task 1 - Jadikan jPanel2 sebagai container body ber-CardLayout,
+     * diposisikan di kanan sidebar dan di bawah header.
+     */
+    private void setupBody() {
+        // Layout 3-section: header tipis, sidebar & body sejajar di bawahnya.
+        int headerHeight = 45;
+        int sidebarLeft = 10;
+        int sidebarWidth = 228;
+        int totalWidth = 940;
+        int totalHeight = 523;
+        int contentTop = headerHeight;                 // sidebar & body mulai tepat di bawah header
+        int bodyLeft = sidebarLeft + sidebarWidth;      // body menempel di kanan sidebar (flush)
+        // Header tipis selebar penuh.
+        jPanel3.setBounds(0, 0, totalWidth, headerHeight);
+        // Sidebar sejajar di bawah header.
+        jPanel5.setBounds(sidebarLeft, contentTop, sidebarWidth, totalHeight - contentTop);
+        // Body di kanan sidebar, top sejajar dengan sidebar.
+        jPanel2.setBounds(bodyLeft, contentTop, totalWidth - bodyLeft, totalHeight - contentTop);
+        jPanel2.setBackground(new Color(245, 245, 245));
+        jPanel2.setLayout(new CardLayout());
+    }
+
+    /**
+     * Task 2 - Bangun satu panel body (placeholder) untuk tiap menu,
+     * di-register ke CardLayout dengan key = routePath.
+     */
+    /**
+     * Daftarkan semua halaman body ke Router (route -> Page).
+     * Menambah menu baru cukup register satu Page di sini.
+     */
+    private void setupRouter() {
+        router = new Router(jPanel2);
+        router.register(new DashboardPage(currentUser));
+        router.register(new TransferPage(currentUser));
+        router.register(new MutasiPage(currentUser));
+        router.register(new PembayaranPage(currentUser));
+    }
+
+    private void buildContentPanels() {
+        if (currentUser == null || currentUser.getMenus() == null) {
+            return;
+        }
+        for (Menu menu : currentUser.getMenus()) {
+            JPanel page = new JPanel();
+            page.setBackground(new Color(245, 245, 245));
+            JLabel label = new JLabel(menu.getMenuTitle());
+            label.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 20));
+            page.add(label);
+            jPanel2.add(page, menu.getRoutePath());
+        }
+        jPanel2.revalidate();
+        jPanel2.repaint();
+    }
+
+    /**
+     * Task 3 - Render tombol sidebar secara dinamis dari daftar menu user.
+     * Klik tombol hanya menukar body (CardLayout), header & sidebar tetap.
+     */
+    private void renderMenu() {
+        jPanel5.removeAll();
+        menuButtons.clear();
+
+        if (currentUser == null || currentUser.getMenus() == null) {
+            jPanel5.revalidate();
+            jPanel5.repaint();
+            return;
+        }
+
+        List<Menu> menus = currentUser.getMenus();
+        for (int i = 0; i < menus.size(); i++) {
+            final Menu menu = menus.get(i);
+            // Logout tidak ditampilkan di sidebar; nanti ditaruh di header.
+            if ("/logout".equals(menu.getRoutePath())) {
+                continue;
+            }
+            JButton btn = new JButton(menu.getMenuTitle());
+            btn.setBackground(defaultColor);
+            btn.setForeground(Color.WHITE);
+            btn.setFocusPainted(false);
+            btn.setHorizontalAlignment(JButton.LEFT);
+            btn.setBounds(0, 0 + (i * 30), 230, 30);
+            btn.addActionListener(e -> {
+                setActiveMenu(btn);
+                router.navigate(menu.getRoutePath());
+            });
+            jPanel5.add(btn);
+            menuButtons.add(btn);
+        }
+
+        // Tampilkan menu pertama secara default.
+        if (!menuButtons.isEmpty()) {
+            setActiveMenu(menuButtons.get(0));
+            router.navigate(menus.get(0).getRoutePath());
+        }
+
+        jPanel5.revalidate();
+        jPanel5.repaint();
+    }
+
+    /**
+     * Highlight tombol menu aktif; reset tombol dinamis lainnya ke warna default.
+     */
+    private void setActiveMenu(JButton active) {
+        for (JButton btn : menuButtons) {
+            btn.setBackground(defaultColor);
+            btn.setForeground(Color.WHITE);
+        }
+        active.setBackground(activeColor);
+        active.setForeground(defaultColor);
+    }
     
     private void resetButton() {
       
-    jButton1.setBackground(defaultColor);
-    jButton2.setBackground(defaultColor);
-    jButton3.setBackground(defaultColor);
-    jButton4.setBackground(defaultColor);
-    jButton5.setBackground(defaultColor);
-    jButton6.setBackground(defaultColor);
-    jButton7.setBackground(defaultColor);
-    jButton8.setBackground(defaultColor);
+  
     }
     
     private void setActive(JButton btn) {
@@ -61,14 +198,6 @@ public class IsiBank extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
 
         jMenu1.setText("jMenu1");
@@ -104,88 +233,33 @@ public class IsiBank extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Showcard Gothic", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Dashboard");
+        jLabel1.setText("dompetku");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(56, 56, 56)
+                .addGap(45, 45, 45)
                 .addComponent(jLabel1)
-                .addContainerGap(673, Short.MAX_VALUE))
+                .addContainerGap(696, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(53, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33))
+                .addContainerGap(13, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jPanel4.add(jPanel3);
-        jPanel3.setBounds(0, 0, 880, 140);
+        jPanel3.setBounds(0, 0, 880, 50);
 
         jPanel5.setBackground(new java.awt.Color(0, 102, 102));
+        jPanel5.setAutoscrolls(true);
         jPanel5.setLayout(null);
-
-        jButton1.setBackground(new java.awt.Color(0, 102, 102));
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("jButton1");
-        jPanel5.add(jButton1);
-        jButton1.setBounds(0, 150, 230, 30);
-
-        jButton2.setBackground(new java.awt.Color(0, 102, 102));
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("jButton2");
-        jButton2.addActionListener(this::jButton2ActionPerformed);
-        jPanel5.add(jButton2);
-        jButton2.setBounds(0, 180, 230, 30);
-
-        jButton3.setBackground(new java.awt.Color(0, 102, 102));
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("jButton3");
-        jButton3.addActionListener(this::jButton3ActionPerformed);
-        jPanel5.add(jButton3);
-        jButton3.setBounds(0, 210, 230, 30);
-
-        jButton4.setBackground(new java.awt.Color(0, 102, 102));
-        jButton4.setForeground(new java.awt.Color(255, 255, 255));
-        jButton4.setText("jButton4");
-        jButton4.addActionListener(this::jButton4ActionPerformed);
-        jPanel5.add(jButton4);
-        jButton4.setBounds(0, 240, 230, 30);
-
-        jButton5.setBackground(new java.awt.Color(0, 102, 102));
-        jButton5.setForeground(new java.awt.Color(255, 255, 255));
-        jButton5.setText("jButton5");
-        jButton5.addActionListener(this::jButton5ActionPerformed);
-        jPanel5.add(jButton5);
-        jButton5.setBounds(0, 270, 230, 30);
-
-        jButton6.setBackground(new java.awt.Color(0, 102, 102));
-        jButton6.setForeground(new java.awt.Color(255, 255, 255));
-        jButton6.setText("jButton6");
-        jButton6.addActionListener(this::jButton6ActionPerformed);
-        jPanel5.add(jButton6);
-        jButton6.setBounds(0, 300, 230, 30);
-
-        jButton7.setBackground(new java.awt.Color(0, 102, 102));
-        jButton7.setForeground(new java.awt.Color(255, 255, 255));
-        jButton7.setText("jButton7");
-        jButton7.addActionListener(this::jButton7ActionPerformed);
-        jPanel5.add(jButton7);
-        jButton7.setBounds(0, 330, 230, 30);
-
-        jButton8.setBackground(new java.awt.Color(0, 102, 102));
-        jButton8.setForeground(new java.awt.Color(255, 255, 255));
-        jButton8.setText("jButton8");
-        jButton8.addActionListener(this::jButton8ActionPerformed);
-        jPanel5.add(jButton8);
-        jButton8.setBounds(0, 360, 230, 30);
-
         jPanel4.add(jPanel5);
-        jPanel5.setBounds(6, 0, 228, 517);
+        jPanel5.setBounds(10, 50, 228, 430);
 
         jPanel2.setLayout(null);
         jPanel4.add(jPanel2);
@@ -207,34 +281,6 @@ public class IsiBank extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-       setActive(jButton8); // TODO add your handling code here:
-    }//GEN-LAST:event_jButton8ActionPerformed
-
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        setActive(jButton7);        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton7ActionPerformed
-
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        setActive(jButton1);        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        setActive(jButton2);// TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        setActive(jButton3);        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        setActive(jButton4);        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
-
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        setActive(jButton6);        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton6ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -262,14 +308,6 @@ public class IsiBank extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
@@ -284,3 +322,4 @@ public class IsiBank extends javax.swing.JFrame {
     private java.awt.MenuBar menuBar1;
     // End of variables declaration//GEN-END:variables
 }
+

@@ -29,10 +29,11 @@ public class SignIn extends javax.swing.JFrame {
                         this,
                         "Login berhasil!"
                 );
-                IsiBank dashboard = new IsiBank();
+                IsiBank dashboard = new IsiBank(user);
                 dashboard.pack();
                 dashboard.setLocationRelativeTo(null);
                 dashboard.setVisible(true);
+                this.dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "Registrasi Gagal!", "Error", JOptionPane.ERROR_MESSAGE);
             }
