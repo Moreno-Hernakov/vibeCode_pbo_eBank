@@ -4,7 +4,11 @@
  */
 package com.ebanking.view;
 
+import com.ebanking.config.DBConnection;
 import java.awt.Color;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import javax.swing.JButton;
 
 /**
@@ -21,8 +25,82 @@ public class Jbutton1 extends javax.swing.JFrame {
      */
     public Jbutton1() {
         initComponents();
-        
+        tampiltable();
+        loadJumlahTransaksi();
+        loadJumlahRekening();
+        loadTotalSaldo();
     }
+    
+    
+    public void tampiltable() {
+    try {
+        jTable1.setModel(
+            DBConnection.selectToTable(
+                "SELECT * FROM t_transaction",
+                null
+            )
+        );
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+    
+    private void loadJumlahTransaksi() {
+    String sql = "SELECT COUNT(*) AS total FROM t_transaction";
+
+    try (
+        Connection conn = DBConnection.getConnection();
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery()
+    ) {
+        if (rs.next()) {
+            jLabel2.setText(rs.getString("total"));
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+    
+    private void loadJumlahRekening() {
+    String sql = "SELECT COUNT(*) AS total FROM m_account";
+
+    try (
+        Connection conn = DBConnection.getConnection();
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery()
+    ) {
+        if (rs.next()) {
+            jLabel3.setText(rs.getString("total"));
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+    
+    private void loadTotalSaldo() {
+    String sql = "SELECT SUM(balance) AS total_saldo FROM m_account";
+
+    try (
+        Connection conn = DBConnection.getConnection();
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery()
+    ) {
+        if (rs.next()) {
+            double totalSaldo = rs.getDouble("total_saldo");
+
+            jLabel4.setText(
+                String.format("Rp %,.0f", totalSaldo)
+            );
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+    
+    
+    
+    
+    
     
     private void resetButton() {
       
@@ -70,6 +148,15 @@ public class Jbutton1 extends javax.swing.JFrame {
         jButton7 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
+        jPanel6 = new javax.swing.JPanel();
+        jPanel7 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jPanel8 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jPanel9 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
 
         jMenu1.setText("jMenu1");
 
@@ -113,7 +200,7 @@ public class Jbutton1 extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(56, 56, 56)
                 .addComponent(jLabel1)
-                .addContainerGap(673, Short.MAX_VALUE))
+                .addContainerGap(1273, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -124,7 +211,7 @@ public class Jbutton1 extends javax.swing.JFrame {
         );
 
         jPanel4.add(jPanel3);
-        jPanel3.setBounds(0, 0, 880, 140);
+        jPanel3.setBounds(0, 0, 1480, 140);
 
         jPanel5.setBackground(new java.awt.Color(0, 102, 102));
         jPanel5.setLayout(null);
@@ -185,24 +272,124 @@ public class Jbutton1 extends javax.swing.JFrame {
         jButton8.setBounds(0, 360, 230, 30);
 
         jPanel4.add(jPanel5);
-        jPanel5.setBounds(6, 0, 228, 517);
+        jPanel5.setBounds(6, 0, 228, 690);
 
         jPanel2.setLayout(null);
         jPanel4.add(jPanel2);
         jPanel2.setBounds(1120, 0, 0, 0);
 
+        jPanel6.setLayout(null);
+
+        jPanel7.setBackground(new java.awt.Color(51, 51, 255));
+        jPanel7.setForeground(new java.awt.Color(51, 102, 255));
+
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("jLabel2");
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGap(187, 187, 187)
+                .addComponent(jLabel2)
+                .addContainerGap(196, Short.MAX_VALUE))
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addComponent(jLabel2)
+                .addContainerGap(167, Short.MAX_VALUE))
+        );
+
+        jPanel6.add(jPanel7);
+        jPanel7.setBounds(6, 0, 420, 200);
+
+        jPanel8.setBackground(new java.awt.Color(255, 153, 153));
+
+        jLabel3.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel3.setText("jLabel3");
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addGap(175, 175, 175)
+                .addComponent(jLabel3)
+                .addContainerGap(208, Short.MAX_VALUE))
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                .addContainerGap(121, Short.MAX_VALUE)
+                .addComponent(jLabel3)
+                .addGap(63, 63, 63))
+        );
+
+        jPanel6.add(jPanel8);
+        jPanel8.setBounds(420, 0, 420, 200);
+
+        jPanel9.setBackground(new java.awt.Color(102, 102, 255));
+
+        jLabel4.setText("jLabel4");
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
+                .addContainerGap(205, Short.MAX_VALUE)
+                .addComponent(jLabel4)
+                .addGap(198, 198, 198))
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
+                .addContainerGap(124, Short.MAX_VALUE)
+                .addComponent(jLabel4)
+                .addGap(60, 60, 60))
+        );
+
+        jPanel6.add(jPanel9);
+        jPanel9.setBounds(840, 0, 440, 200);
+
+        jPanel4.add(jPanel6);
+        jPanel6.setBounds(230, 140, 1280, 200);
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
+        jPanel4.add(jScrollPane1);
+        jScrollPane1.setBounds(310, 340, 452, 402);
+
         jPanel1.add(jPanel4);
-        jPanel4.setBounds(-10, 0, 940, 523);
+        jPanel4.setBounds(-10, 0, 1480, 800);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 861, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1466, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 803, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -272,6 +459,9 @@ public class Jbutton1 extends javax.swing.JFrame {
     private javax.swing.JButton jButton8;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JPanel jPanel1;
@@ -279,6 +469,12 @@ public class Jbutton1 extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     private java.awt.Menu menu1;
     private java.awt.Menu menu2;
     private java.awt.MenuBar menuBar1;
