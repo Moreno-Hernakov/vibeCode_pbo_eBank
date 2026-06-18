@@ -220,59 +220,59 @@ public class Jbutton1 extends javax.swing.JFrame {
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("jButton1");
         jPanel5.add(jButton1);
-        jButton1.setBounds(0, 150, 230, 30);
+        jButton1.setBounds(0, 170, 230, 50);
 
         jButton2.setBackground(new java.awt.Color(0, 102, 102));
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("jButton2");
         jButton2.addActionListener(this::jButton2ActionPerformed);
         jPanel5.add(jButton2);
-        jButton2.setBounds(0, 180, 230, 30);
+        jButton2.setBounds(0, 220, 230, 60);
 
         jButton3.setBackground(new java.awt.Color(0, 102, 102));
         jButton3.setForeground(new java.awt.Color(255, 255, 255));
         jButton3.setText("jButton3");
         jButton3.addActionListener(this::jButton3ActionPerformed);
         jPanel5.add(jButton3);
-        jButton3.setBounds(0, 210, 230, 30);
+        jButton3.setBounds(0, 280, 230, 60);
 
         jButton4.setBackground(new java.awt.Color(0, 102, 102));
         jButton4.setForeground(new java.awt.Color(255, 255, 255));
         jButton4.setText("jButton4");
         jButton4.addActionListener(this::jButton4ActionPerformed);
         jPanel5.add(jButton4);
-        jButton4.setBounds(0, 240, 230, 30);
+        jButton4.setBounds(0, 340, 230, 60);
 
         jButton5.setBackground(new java.awt.Color(0, 102, 102));
         jButton5.setForeground(new java.awt.Color(255, 255, 255));
         jButton5.setText("jButton5");
         jButton5.addActionListener(this::jButton5ActionPerformed);
         jPanel5.add(jButton5);
-        jButton5.setBounds(0, 270, 230, 30);
+        jButton5.setBounds(0, 400, 230, 60);
 
         jButton6.setBackground(new java.awt.Color(0, 102, 102));
         jButton6.setForeground(new java.awt.Color(255, 255, 255));
         jButton6.setText("jButton6");
         jButton6.addActionListener(this::jButton6ActionPerformed);
         jPanel5.add(jButton6);
-        jButton6.setBounds(0, 300, 230, 30);
+        jButton6.setBounds(0, 460, 230, 60);
 
         jButton7.setBackground(new java.awt.Color(0, 102, 102));
         jButton7.setForeground(new java.awt.Color(255, 255, 255));
         jButton7.setText("jButton7");
         jButton7.addActionListener(this::jButton7ActionPerformed);
         jPanel5.add(jButton7);
-        jButton7.setBounds(0, 330, 230, 30);
+        jButton7.setBounds(0, 520, 230, 70);
 
         jButton8.setBackground(new java.awt.Color(0, 102, 102));
         jButton8.setForeground(new java.awt.Color(255, 255, 255));
         jButton8.setText("jButton8");
         jButton8.addActionListener(this::jButton8ActionPerformed);
         jPanel5.add(jButton8);
-        jButton8.setBounds(0, 360, 230, 30);
+        jButton8.setBounds(0, 590, 230, 70);
 
         jPanel4.add(jPanel5);
-        jPanel5.setBounds(6, 0, 228, 690);
+        jPanel5.setBounds(10, 0, 228, 800);
 
         jPanel2.setLayout(null);
         jPanel4.add(jPanel2);
@@ -372,7 +372,7 @@ public class Jbutton1 extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable1);
 
         jPanel4.add(jScrollPane1);
-        jScrollPane1.setBounds(310, 340, 452, 402);
+        jScrollPane1.setBounds(240, 340, 1240, 460);
 
         jPanel1.add(jPanel4);
         jPanel4.setBounds(-10, 0, 1480, 800);
