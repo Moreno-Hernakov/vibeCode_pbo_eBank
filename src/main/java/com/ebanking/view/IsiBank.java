@@ -17,11 +17,15 @@ import com.ebanking.view.page.Router;
 import com.ebanking.view.page.PageRegistry;
 import com.ebanking.view.page.Page;
 import com.ebanking.view.page.DashboardPage;
-import com.ebanking.view.page.HakAksesUserPage;
+
 import com.ebanking.view.page.TransferPage;
 import com.ebanking.view.page.MutasiPage;
+import com.ebanking.view.page.AdminMenuPage;
+import com.ebanking.view.page.AdminFeaturePage;
 import com.ebanking.view.page.PembayaranPage;
-import com.ebanking.view.page.AdminPage;
+import com.ebanking.view.page.UserManagePage;
+
+
 import java.sql.SQLException;
 
 /**
@@ -106,7 +110,9 @@ public class IsiBank extends javax.swing.JFrame {
             .register("/transfer",   () -> new TransferPage(currentUser))
             .register("/mutasi",     () -> new MutasiPage(currentUser))
             .register("/pembayaran", () -> new PembayaranPage(currentUser))
-            .register("/hakAksesUser", () -> new HakAksesUserPage(currentUser));
+            .register("/admin/user", () -> new UserManagePage(currentUser))
+            .register("/admin/menu",  () -> new AdminMenuPage(currentUser))
+            .register("/admin/feature",    () -> new AdminFeaturePage(currentUser));
     }
 
     /**
@@ -115,6 +121,7 @@ public class IsiBank extends javax.swing.JFrame {
      */
     private void setupRouter() throws SQLException {
         router = new Router(jPanel2);
+<<<<<<< HEAD
 
         router.register(new DashboardPage(currentUser));
         router.register(new TransferPage(currentUser));
@@ -122,6 +129,8 @@ public class IsiBank extends javax.swing.JFrame {
         router.register(new PembayaranPage(currentUser));
         router.register(new AdminPage(currentUser));
 
+=======
+>>>>>>> d471c75abf52d3be956087c2b71402898a179b94
         PageRegistry registry = buildRegistry();
 
         if (currentUser == null || currentUser.getMenus() == null) return;
@@ -133,7 +142,10 @@ public class IsiBank extends javax.swing.JFrame {
             }
             router.register(page);
         }
+<<<<<<< HEAD
 
+=======
+>>>>>>> d471c75abf52d3be956087c2b71402898a179b94
     }
 
     private void buildContentPanels() {
@@ -396,4 +408,14 @@ public class IsiBank extends javax.swing.JFrame {
     private java.awt.MenuBar menuBar1;
     // End of variables declaration//GEN-END:variables
 }
+
+
+
+
+
+
+
+
+
+
 

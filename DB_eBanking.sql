@@ -198,24 +198,28 @@ INSERT INTO m_limit (feature_code, classification, limit_amount) VALUES
 ('102', 1, 5000000.00);
 
 INSERT INTO m_customer (cif_number, customer_name, customer_phone, customer_email, classification, client_pin) VALUES
-('CIF001', 'BUDI HARTONO', '081234567890', 'budi@gmail.com', 1, '$2a$12$0jV4CgUf9VXALiQ4xAb3Lu36I70a8.t1CQvecTp6Woq0AAq1iEfwW'),
-('CIF002', 'SITI AMINAH', '081122334455', 'siti@gmail.com', 2, '$2a$12$hashedpin2');
+('CIF001', 'VALEN', '081234567890', 'valen@gmail.com', 1, '123456'),
+('CIF002', 'RENO',  '081234567891', 'reno@gmail.com',  1, '123456'),
+('CIF003', 'AGUNG', '081234567892', 'agung@gmail.com', 1, '123456');
 
 INSERT INTO m_account (account_number, cif_number, product_type_id, balance) VALUES
 ('1001001', 'CIF001', 1, 5000000.00),
-('1001002', 'CIF001', 1, 1000000.00),
-('2001001', 'CIF002', 2, 75000000.00);
+('1001002', 'CIF002', 1, 5000000.00),
+('1001003', 'CIF003', 1, 5000000.00);
 
 INSERT INTO m_user (username, password, cif_number, status) VALUES
-('budi_hartono', '$2a$12$0jV4CgUf9VXALiQ4xAb3Lu36I70a8.t1CQvecTp6Woq0AAq1iEfwW', 'CIF001', 'ACTIVE'),
-('siti_aminah', '$2a$12$R9h/cIPz0gi.URQHeNVw6uVpmJNoTuVnIgu6W9U0.4V8Ym1D9vP.y', 'CIF002', 'ACTIVE');
+('valen', 'pw123', 'CIF001', 'ACTIVE'),
+('reno',  'pw123', 'CIF002', 'ACTIVE'),
+('agung', 'pw123', 'CIF003', 'ACTIVE');
 
 INSERT INTO m_menu (menu_title, route_path) VALUES 
 ('Dashboard', '/dashboard'),
 ('Transfer', '/transfer'),
 ('Mutasi Rekening', '/mutasi'),
 ('Pembayaran', '/pembayaran'),
-('Logout', '/logout');
+('Kelola User',  '/admin/user'),
+('Kelola Menu',  '/admin/menu'),
+('Kelola Fitur', '/admin/feature');
 
 -- =============================================================================
 -- 5. STORED PROCEDURES
@@ -480,3 +484,6 @@ BEGIN
 END //
 
 DELIMITER ;
+
+
+
