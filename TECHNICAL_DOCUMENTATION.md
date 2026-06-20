@@ -137,3 +137,96 @@ Kalau aplikasi lu munculin angka aneh, ini artinya:
 
 ---
 *Dokumentasi ini di-generate otomatis oleh Gemini CLI (28 Mei 2026).*
+
+---
+
+## 🖥️ 7. LAYOUT & NAVIGASI UI (IsiBank)
+
+### A. Ukuran Layout IsiBank
+
+Frame utama (`IsiBank`) dibagi 3 section dengan ukuran fixed:
+
+```
+┌─────────────────────────────────────────────────────┐
+│  jPanel4 (background) — 940 x 523 px               │
+│                                                     │
+│  ┌─────────────────────────────────────────────┐    │
+│  │  Header (jPanel3) — 940 x 45 px            │    │
+│  │  warna: #006666 | x=0, y=0                 │    │
+│  └─────────────────────────────────────────────┘    │
+│                                                     │
+│  ┌──────────────┐  ┌──────────────────────────────┐ │
+│  │ Sidebar      │  │ Body / CardLayout (jPanel2)  │ │
+│  │ (jPanel5)    │  │ lebar : 702 px               │ │
+│  │ x=10, y=45   │  │ tinggi: 478 px               │ │
+│  │ lebar : 228  │  │ x=238, y=45                  │ │
+│  │ tinggi: 478  │  │ warna: #F5F5F5               │ │
+│  │ warna:#006666│  │                              │ │
+│  └──────────────┘  └──────────────────────────────┘ │
+└─────────────────────────────────────────────────────┘
+```
+
+| Section | x | y | Lebar | Tinggi | Warna |
+|---|---|---|---|---|---|
+| Frame total | 0 | 0 | 940 | 523 | - |
+| Header (jPanel3) | 0 | 0 | 940 | 45 | `#006666` |
+| Sidebar (jPanel5) | 10 | 45 | 228 | 478 | `#006666` |
+| **Body/Page (jPanel2)** | **238** | **45** | **702** | **478** | `#F5F5F5` |
+
+> **Ukuran design tiap page: `702 x 478 px`**
+> Di NetBeans, buka `.form` page → klik panel → Properties → set `preferredSize: [702, 478]`.
+
+---
+
+### B. Sistem Routing Dinamis
+
+Navigasi antar halaman tidak membuka JFrame baru. Hanya satu JFrame (`IsiBank`) yang hidup, body-nya menukar isi via **CardLayout**.
+
+**Alur flow:**
+```
+Login (sp_login_user)
+    └── User + List<Menu> dari DB
+            └── IsiBank(user)
+                    ├── setupBody()     → jPanel2 jadi CardLayout
+                    ├── buildRegistry() → daftarkan route → Page
+                    ├── setupRouter()   → loop menu DB, register ke Router
+                    └── renderMenu()    → buat tombol sidebar dinamis
+
+Klik tombol sidebar
+    └── router.navigate("/transfer")
+            ├── page.onShow()           → refresh data
+            └── CardLayout.show()       → TransferPage tampil di body
+```
+
+**Komponen routing:**
+
+| Komponen | Peran |
+|---|---|
+| `IsiBank` | JFrame utama — setup layout, registry, dan sidebar |
+| `PageRegistry` | Peta `route_path → Supplier<Page>` |
+| `Router` | Kelola CardLayout, jalankan `onShow()` saat navigate |
+| `Page` (interface) | Kontrak tiap halaman: `getRoute()`, `getRoot()`, `onShow()` |
+| `NotFoundPage` | Fallback jika route ada di DB tapi belum di registry |
+
+---
+
+### C. Cara Tambah Menu/Page Baru
+
+**Step 1** — Insert ke DB:
+```sql
+INSERT INTO m_menu (menu_title, route_path) VALUES ('Deposito', '/deposito');
+```
+
+**Step 2** — Buat `DepositoPage` (JPanel Form di NetBeans), pastikan `getRoute()` sesuai:
+```java
+@Override public String getRoute() { return "/deposito"; }
+```
+
+**Step 3** — Daftarkan di `IsiBank.buildRegistry()`:
+```java
+.register("/deposito", () -> new DepositoPage(currentUser))
+```
+
+Selesai. Tombol muncul otomatis di sidebar karena `renderMenu()` baca dari `user.getMenus()` (DB).
+
+> **Catatan:** Jika route ada di DB tapi belum di-register di `buildRegistry()`, sidebar tetap menampilkan tombolnya tapi body menampilkan `NotFoundPage` ("Menu not found: /route").

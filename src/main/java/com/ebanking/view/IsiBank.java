@@ -14,7 +14,10 @@ import javax.swing.JPanel;
 import com.ebanking.model.Menu;
 import com.ebanking.model.User;
 import com.ebanking.view.page.Router;
+import com.ebanking.view.page.PageRegistry;
+import com.ebanking.view.page.Page;
 import com.ebanking.view.page.DashboardPage;
+import com.ebanking.view.page.HakAksesUserPage;
 import com.ebanking.view.page.TransferPage;
 import com.ebanking.view.page.MutasiPage;
 import com.ebanking.view.page.PembayaranPage;
@@ -54,6 +57,17 @@ public class IsiBank extends javax.swing.JFrame {
         setupBody();
         setupRouter();
         renderMenu();
+
+        // Panggil sekali saat startup agar layout langsung benar dari awal
+        relayout();
+
+        // Setiap kali ukuran window berubah (resize/fullscreen) → relayout() dipanggil otomatis
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            @Override
+            public void componentResized(java.awt.event.ComponentEvent e) {
+                relayout();
+            }
+        });
     }
 
     /**
@@ -80,19 +94,36 @@ public class IsiBank extends javax.swing.JFrame {
     }
 
     /**
-     * Task 2 - Bangun satu panel body (placeholder) untuk tiap menu,
-     * di-register ke CardLayout dengan key = routePath.
+     * Bangun registry: daftarkan semua page yang tersedia.
+     * Untuk menambah page baru, cukup tambah satu baris register() di sini
+     * dan insert route yang sama ke tabel m_menu di DB.
      */
+    private PageRegistry buildRegistry() {
+        return new PageRegistry()
+            .register("/dashboard",  () -> new DashboardPage(currentUser))
+            .register("/transfer",   () -> new TransferPage(currentUser))
+            .register("/mutasi",     () -> new MutasiPage(currentUser))
+            .register("/pembayaran", () -> new PembayaranPage(currentUser))
+            .register("/hakAksesUser", () -> new HakAksesUserPage(currentUser));
+    }
+
     /**
-     * Daftarkan semua halaman body ke Router (route -> Page).
-     * Menambah menu baru cukup register satu Page di sini.
+     * Setup router: loop menu dari DB, register hanya yang ada di registry.
+     * Menu di DB tapi tidak ada di registry → di-skip otomatis.
      */
     private void setupRouter() {
         router = new Router(jPanel2);
-        router.register(new DashboardPage(currentUser));
-        router.register(new TransferPage(currentUser));
-        router.register(new MutasiPage(currentUser));
-        router.register(new PembayaranPage(currentUser));
+        PageRegistry registry = buildRegistry();
+
+        if (currentUser == null || currentUser.getMenus() == null) return;
+
+        for (com.ebanking.model.Menu menu : currentUser.getMenus()) {
+            Page page = registry.create(menu.getRoutePath());
+            if (page == null) {
+                page = new com.ebanking.view.page.NotFoundPage(menu.getRoutePath());
+            }
+            router.register(page);
+        }
     }
 
     private void buildContentPanels() {
@@ -176,6 +207,39 @@ public class IsiBank extends javax.swing.JFrame {
     private void setActive(JButton btn) {
     resetButton();
     btn.setBackground(activeColor);
+    }
+
+    /**
+     * Hitung ulang posisi & ukuran semua panel utama berdasarkan ukuran window saat ini.
+     * Dipanggil saat pertama kali load dan setiap kali window di-resize.
+     */
+    private void relayout() {
+        // Ambil ukuran area dalam window (di luar title bar & border)
+        int w = getContentPane().getWidth();
+        int h = getContentPane().getHeight();
+
+        int headerH = 45;   // tinggi header, tetap
+        int sidebarW = 238; // total lebar area kiri: 10px gap + 228px sidebar
+
+        // Background panel mengisi seluruh window
+        jPanel4.setBounds(0, 0, w, h);
+
+        // Header selebar penuh window, tinggi tetap 45px
+        jPanel3.setBounds(0, 0, w, headerH);
+
+        // Sidebar mulai dari x=10, y=45; tinggi = sisa window setelah header
+        jPanel5.setBounds(10, headerH, sidebarW - 10, h - headerH);
+
+        // Body mengisi SEMUA sisa ruang di kanan sidebar → responsive
+        jPanel2.setBounds(sidebarW, headerH, w - sidebarW, h - headerH);
+
+        // Tombol sidebar ikut menyesuaikan lebar sidebar
+        for (int i = 0; i < menuButtons.size(); i++) {
+            menuButtons.get(i).setBounds(0, i * 30, sidebarW - 10, 30);
+        }
+
+        // Paksa Swing menghitung ulang layout setelah bounds berubah
+        jPanel4.revalidate();
     }
 
     /**
