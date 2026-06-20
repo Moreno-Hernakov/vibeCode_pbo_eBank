@@ -18,6 +18,8 @@ import com.ebanking.view.page.DashboardPage;
 import com.ebanking.view.page.TransferPage;
 import com.ebanking.view.page.MutasiPage;
 import com.ebanking.view.page.PembayaranPage;
+import com.ebanking.view.page.AdminPage;
+import java.sql.SQLException;
 
 /**
  *
@@ -48,7 +50,7 @@ public class IsiBank extends javax.swing.JFrame {
      * Konstruktor utama: menerima User hasil login lalu membangun
      * layout 3-section (header tetap, sidebar dinamis, body swap via CardLayout).
      */
-    public IsiBank(User user) {
+    public IsiBank(User user) throws SQLException {
         this.currentUser = user;
         initComponents();
         setupBody();
@@ -87,12 +89,13 @@ public class IsiBank extends javax.swing.JFrame {
      * Daftarkan semua halaman body ke Router (route -> Page).
      * Menambah menu baru cukup register satu Page di sini.
      */
-    private void setupRouter() {
+    private void setupRouter() throws SQLException {
         router = new Router(jPanel2);
         router.register(new DashboardPage(currentUser));
         router.register(new TransferPage(currentUser));
         router.register(new MutasiPage(currentUser));
         router.register(new PembayaranPage(currentUser));
+        router.register(new AdminPage(currentUser));
     }
 
     private void buildContentPanels() {

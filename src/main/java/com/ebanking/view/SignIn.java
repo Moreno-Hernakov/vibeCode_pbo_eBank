@@ -3,6 +3,7 @@ package com.ebanking.view;
 
 import com.ebanking.service.AuthService;
 import com.ebanking.model.User;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 public class SignIn extends javax.swing.JFrame {
@@ -11,10 +12,16 @@ public class SignIn extends javax.swing.JFrame {
 
     public SignIn() {
         initComponents();
-        jButton1.addActionListener(e -> doLogin());
+        jButton1.addActionListener(e -> {
+            try {
+                doLogin();
+            } catch (SQLException ex) {
+                System.getLogger(SignIn.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            }
+        });
     }
 
-    private void doLogin() {
+    private void doLogin() throws SQLException {
         String username = jTextField1.getText();
         String password = new String(jPasswordField1.getPassword());
 
@@ -35,14 +42,14 @@ public class SignIn extends javax.swing.JFrame {
                 dashboard.setVisible(true);
                 this.dispose();
             } else {
-                JOptionPane.showMessageDialog(this, "Registrasi Gagal!", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Login Gagal!", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (RuntimeException e) {
 
             JOptionPane.showMessageDialog(
                     this,
                     e.getMessage(),
-                    "Registrasi Gagal",
+                    "Login Gagal",
                     JOptionPane.ERROR_MESSAGE
             );
 //        if (user != null) {

@@ -1,33 +1,86 @@
 package com.ebanking.service.impl;
 
-import com.ebanking.model.User;
+import com.ebanking.dao.TransactionDAO;
+import com.ebanking.model.Account;
 import com.ebanking.service.BaseTransaction;
 
 public class TransferService extends BaseTransaction {
+
+    private String sourceAccount;
+
     private String destinationAccount;
 
-    public TransferService(User user, double amount, String description, String destinationAccount) {
-        super(user, amount, description);
+    public TransferService(
+            Account account,
+            String sourceAccount,
+            String destinationAccount,
+            double amount,
+            String description
+    ) {
+
+        super(account, amount, description);
+
+        this.sourceAccount = sourceAccount;
+
         this.destinationAccount = destinationAccount;
     }
 
     @Override
     public boolean validate() {
-        // Business logic validation
-        return amount > 0 && destinationAccount != null && !destinationAccount.isEmpty();
+
+        return amount > 0
+                && sourceAccount != null
+                && destinationAccount != null
+                && !sourceAccount.isEmpty()
+                && !destinationAccount.isEmpty();
     }
 
     @Override
     public void execute() {
-        if (validate()) {
-            System.out.println("Executing Transfer of " + amount + " to " + destinationAccount);
-            // Logic to update database via DAO would go here
-        } else {
-            System.out.println("Transfer validation failed!");
-        }
+
+    if (!validate()) {
+
+        System.out.println("Transfer validation failed!");
+
+        return;
     }
 
-    // Getter & Setter
-    public String getDestinationAccount() { return destinationAccount; }
-    public void setDestinationAccount(String destinationAccount) { this.destinationAccount = destinationAccount; }
+    TransactionDAO dao = new TransactionDAO();
+
+    boolean success = dao.fundTransfer(
+            user.getAccountNumber(),
+            destinationAccount,
+            amount,
+            "101",
+            user.getCifNumber(),
+            "127.0.0.1"
+    );
+
+    if (success) {
+
+        System.out.println("Transfer berhasil");
+
+    } else {
+
+        System.out.println("Transfer gagal");
+    }
+}
+
+    // Getter Setter
+
+    public String getSourceAccount() {
+        return sourceAccount;
+    }
+
+    public void setSourceAccount(String sourceAccount) {
+        this.sourceAccount = sourceAccount;
+    }
+
+    public String getDestinationAccount() {
+        return destinationAccount;
+    }
+
+    public void setDestinationAccount(String destinationAccount) {
+        this.destinationAccount = destinationAccount;
+    }
 }
