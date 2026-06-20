@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+        <Group type="102" attributes="0">
+          <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+          <Group type="103" groupAlignment="0" attributes="0">
+            <Component id="pnlHeader" max="32767" attributes="0"/>
+            <Component id="pnlTable"  max="32767" attributes="0"/>
+            <Component id="pnlForm"   max="32767" attributes="0"/>
+          </Group>
+          <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+        </Group>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+        <Group type="102" attributes="0">
+          <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+          <Component id="pnlHeader" min="-2" pref="60"  max="-2" attributes="0"/>
+          <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+          <Component id="pnlTable"  max="32767" attributes="0"/>
+          <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+          <Component id="pnlForm"   min="-2" pref="110" max="-2" attributes="0"/>
+          <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+        </Group>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+
+  <SubComponents>
+
+    <!-- HEADER -->
+    <Container class="javax.swing.JPanel" name="pnlHeader">
+      <Properties>
+        <Property name="opaque" type="boolean" value="false"/>
+      </Properties>
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+            <Component id="lblTitle" max="32767" attributes="0"/>
+            <Component id="lblSub"   max="32767" attributes="0"/>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+            <Group type="102" attributes="0">
+              <Component id="lblTitle" min="-2" pref="32" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
+              <Component id="lblSub"   min="-2" pref="20" max="-2" attributes="0"/>
+            </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JLabel" name="lblTitle">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="22" style="1"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="66" green="66" red="0" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Manajemen Fitur"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblSub">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="13" style="0"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="117" green="117" red="117" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Kelola katalog fitur dan biaya admin"/>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
+
+    <!-- TABLE -->
+    <Container class="javax.swing.JPanel" name="pnlTable">
+      <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="255" green="255" red="255" type="rgb"/>
+        </Property>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+            <LineBorder><Color blue="224" green="224" red="224" type="rgb"/></LineBorder>
+          </Border>
+        </Property>
+      </Properties>
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+            <Component id="jScrollPane1" max="32767" attributes="0"/>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+            <Component id="jScrollPane1" max="32767" attributes="0"/>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+          <AuxValues>
+            <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+          </AuxValues>
+          <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+          <SubComponents>
+            <Component class="javax.swing.JTable" name="jTable1">
+              <Properties>
+                <Property name="fillsViewportHeight" type="boolean" value="true"/>
+                <Property name="rowHeight" type="int" value="30"/>
+                <Property name="showGrid" type="boolean" value="true"/>
+                <Property name="gridColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="224" green="224" red="224" type="rgb"/>
+                </Property>
+                <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
+                  <Table columnCount="3" rowCount="0">
+                    <Column editable="false" title="Kode" type="java.lang.String"/>
+                    <Column editable="false" title="Nama Fitur" type="java.lang.String"/>
+                    <Column editable="false" title="Biaya Admin" type="java.lang.String"/>
+                  </Table>
+                </Property>
+                <Property name="selectionMode" type="int" value="0"/>
+              </Properties>
+            </Component>
+          </SubComponents>
+        </Container>
+      </SubComponents>
+    </Container>
+
+    <!-- FORM INPUT -->
+    <Container class="javax.swing.JPanel" name="pnlForm">
+      <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="255" green="255" red="255" type="rgb"/>
+        </Property>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+            <LineBorder><Color blue="224" green="224" red="224" type="rgb"/></LineBorder>
+          </Border>
+        </Property>
+      </Properties>
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+            <Group type="102" attributes="0">
+              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                <Component id="lblKode"  min="-2" pref="80" max="-2" attributes="0"/>
+                <Component id="lblNama"  min="-2" pref="80" max="-2" attributes="0"/>
+                <Component id="lblBiaya" min="-2" pref="80" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                <Component id="txtKode"  max="32767" attributes="0"/>
+                <Component id="txtNama"  max="32767" attributes="0"/>
+                <Component id="txtBiaya" max="32767" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                <Component id="btnSave"   min="-2" pref="90" max="-2" attributes="0"/>
+                <Component id="btnUpdate" min="-2" pref="90" max="-2" attributes="0"/>
+                <Component id="btnDelete" min="-2" pref="90" max="-2" attributes="0"/>
+                <Component id="btnClear"  min="-2" pref="90" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+            </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+            <Group type="102" attributes="0">
+              <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                <Component id="lblKode"  alignment="3" min="-2" max="-2" attributes="0"/>
+                <Component id="txtKode"  alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
+                <Component id="btnSave"  alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                <Component id="lblNama"  alignment="3" min="-2" max="-2" attributes="0"/>
+                <Component id="txtNama"  alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
+                <Component id="btnUpdate" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                <Component id="lblBiaya" alignment="3" min="-2" max="-2" attributes="0"/>
+                <Component id="txtBiaya" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
+                <Component id="btnDelete" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace pref="0" max="32767" attributes="0"/>
+              <Component id="btnClear" min="-2" pref="28" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+            </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JLabel" name="lblKode">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor"><Font name="Segoe UI" size="13" style="0"/></Property>
+            <Property name="text" type="java.lang.String" value="Kode"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblNama">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor"><Font name="Segoe UI" size="13" style="0"/></Property>
+            <Property name="text" type="java.lang.String" value="Nama Fitur"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblBiaya">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor"><Font name="Segoe UI" size="13" style="0"/></Property>
+            <Property name="text" type="java.lang.String" value="Biaya Admin"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="txtKode">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor"><Font name="Segoe UI" size="13" style="0"/></Property>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="txtNama">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor"><Font name="Segoe UI" size="13" style="0"/></Property>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="txtBiaya">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor"><Font name="Segoe UI" size="13" style="0"/></Property>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnSave">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor"><Color blue="102" green="102" red="0" type="rgb"/></Property>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor"><Font name="Segoe UI" size="13" style="1"/></Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor"><Color blue="255" green="255" red="255" type="rgb"/></Property>
+            <Property name="text" type="java.lang.String" value="Simpan"/>
+            <Property name="focusPainted" type="boolean" value="false"/>
+            <Property name="opaque" type="boolean" value="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnUpdate">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor"><Color blue="153" green="102" red="0" type="rgb"/></Property>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor"><Font name="Segoe UI" size="13" style="1"/></Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor"><Color blue="255" green="255" red="255" type="rgb"/></Property>
+            <Property name="text" type="java.lang.String" value="Update"/>
+            <Property name="focusPainted" type="boolean" value="false"/>
+            <Property name="opaque" type="boolean" value="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnDelete">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor"><Color blue="43" green="57" red="192" type="rgb"/></Property>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor"><Font name="Segoe UI" size="13" style="1"/></Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor"><Color blue="255" green="255" red="255" type="rgb"/></Property>
+            <Property name="text" type="java.lang.String" value="Hapus"/>
+            <Property name="focusPainted" type="boolean" value="false"/>
+            <Property name="opaque" type="boolean" value="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnClear">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor"><Color blue="224" green="224" red="224" type="rgb"/></Property>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor"><Font name="Segoe UI" size="13" style="1"/></Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor"><Color blue="33" green="33" red="33" type="rgb"/></Property>
+            <Property name="text" type="java.lang.String" value="Bersihkan"/>
+            <Property name="focusPainted" type="boolean" value="false"/>
+            <Property name="opaque" type="boolean" value="true"/>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
+
+  </SubComponents>
+</Form>
