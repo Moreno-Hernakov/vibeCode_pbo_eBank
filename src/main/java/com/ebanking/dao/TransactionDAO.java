@@ -2,6 +2,7 @@ package com.ebanking.dao;
 
 import com.ebanking.config.DBConnection;
 import com.ebanking.config.ResponseHelper;
+import com.ebanking.model.FeatureModel;
 import com.ebanking.model.Transaction;
 import com.ebanking.model.User;
 
@@ -11,17 +12,47 @@ import java.util.Arrays;
 import java.util.List;
 
 public class TransactionDAO implements BaseDAO<Transaction> {
+    
+    public String getAccountNumberByCif(String cifNumber) {
+        String sql = "SELECT account_number FROM m_account WHERE cif_number = ? LIMIT 1";
 
-    // =====================================================
-    // CONNECTION
-    // =====================================================
+        try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, cifNumber);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("account_number");
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error getAccountNumberByCif: " + e.getMessage());
+        }
+        return null; // Kembalikan null jika tidak ditemukan
+    }
+    
+    public List<FeatureModel> getTransferFeatures() {
+        List<FeatureModel> list = new ArrayList<>();
+        String sql = "SELECT feature_code, feature_name, fee FROM m_feature WHERE feature_code"; // Kode '1xx' untuk transfer
+
+        try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                list.add(new FeatureModel(
+                        rs.getString("feature_code"),
+                        rs.getString("feature_name"),
+                        rs.getDouble("fee")
+                ));
+            }
+        } catch (SQLException e) {
+            System.err.println("Error getTransferFeatures: " + e.getMessage());
+        }
+        return list;
+    }
+
     private Connection getConnection() throws SQLException {
         return DBConnection.getConnection();
     }
 
-    // =====================================================
-    // CRUD
-    // =====================================================
     @Override
     public Transaction getById(Long id) {
 

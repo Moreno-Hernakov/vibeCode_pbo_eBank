@@ -39,4 +39,6 @@ public class User {
 
     public java.util.List<Menu> getMenus() { return menus; }
     public void setMenus(java.util.List<Menu> menus) { this.menus = menus; }
+
+    
 }

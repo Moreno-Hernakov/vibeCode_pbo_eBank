@@ -27,7 +27,8 @@ public class Transaction {
     private String ipaddress;
     private String billerName;
     private String location;
-
+    
+    
     // Constructor kosong
     public Transaction() {
     }
