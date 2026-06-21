@@ -1,7 +1,7 @@
 package com.ebanking.view.page;
 
 import com.ebanking.dao.FeatureDAO;
-import com.ebanking.model.Feature;
+import com.ebanking.model.FeatureModel;
 import com.ebanking.model.User;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -56,7 +56,7 @@ public class AdminFeaturePage extends javax.swing.JPanel implements Page {
     private void loadTable() {
         DefaultTableModel tm = (DefaultTableModel) jTable1.getModel();
         tm.setRowCount(0);
-        for (Feature f : dao.getAll()) {
+        for (FeatureModel f : dao.getAll()) {
             tm.addRow(new Object[]{
                 f.getFeatureCode(),
                 f.getFeatureName(),
@@ -80,7 +80,7 @@ public class AdminFeaturePage extends javax.swing.JPanel implements Page {
 
     private void saveFeature() {
         if (!validateForm()) return;
-        Feature f = new Feature(txtKode.getText().trim(), txtNama.getText().trim(), parseFee());
+        FeatureModel f = new FeatureModel(txtKode.getText().trim(), txtNama.getText().trim(), parseFee());
         if (dao.save(f)) {
             JOptionPane.showMessageDialog(this, "Fitur berhasil ditambahkan.");
             loadTable(); clearForm();
@@ -92,7 +92,7 @@ public class AdminFeaturePage extends javax.swing.JPanel implements Page {
     private void updateFeature() {
         if (jTable1.getSelectedRow() == -1) { JOptionPane.showMessageDialog(this, "Pilih fitur terlebih dahulu."); return; }
         if (!validateForm()) return;
-        Feature f = new Feature(txtKode.getText().trim(), txtNama.getText().trim(), parseFee());
+        FeatureModel f = new FeatureModel(txtKode.getText().trim(), txtNama.getText().trim(), parseFee());
         if (dao.update(f)) {
             JOptionPane.showMessageDialog(this, "Fitur berhasil diperbarui.");
             loadTable(); clearForm();

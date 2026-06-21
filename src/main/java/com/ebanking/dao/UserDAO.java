@@ -83,7 +83,7 @@ public class UserDAO implements BaseDAO<User> {
             stmt.setString(1, name);
             stmt.setString(2, phone);
             stmt.setString(3, email);
-            stmt.setString(4, null);
+            stmt.setString(4, "123456");
             stmt.setString(5, username);
             stmt.setString(6, password);
             stmt.registerOutParameter(7, Types.VARCHAR);

@@ -3,6 +3,7 @@ package com.ebanking.view;
 
 import com.ebanking.model.User;
 import com.ebanking.service.AuthService;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 
@@ -11,10 +12,16 @@ public class SignUp extends javax.swing.JFrame {
  
     public SignUp() {
         initComponents();
-        jButton1.addActionListener(e -> doRegister());
+        jButton1.addActionListener(e -> {
+            try {
+                doRegister();
+            } catch (SQLException ex) {
+                System.getLogger(SignUp.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            }
+        });
     }
     
-    private void doRegister() {
+    private void doRegister() throws SQLException {
         String name = jTextField1.getText();
         String phone = jTextField2.getText();
         String email = jTextField4.getText();
@@ -36,7 +43,7 @@ public class SignUp extends javax.swing.JFrame {
                         this,
                         "Registrasi berhasil!"
                 );
-                IsiBank dashboard = new IsiBank();
+                IsiBank dashboard = new IsiBank(user);
                 dashboard.pack();
                 dashboard.setLocationRelativeTo(null);
                 dashboard.setVisible(true);
@@ -51,6 +58,7 @@ public class SignUp extends javax.swing.JFrame {
                     "Registrasi Gagal",
                     JOptionPane.ERROR_MESSAGE
             );
+            
         }
 //        User user = authService.register(name,phone,email,username,password);
 //

@@ -4,6 +4,7 @@ import com.ebanking.config.DBConnection;
 import com.ebanking.config.ResponseHelper;
 import com.ebanking.model.FeatureModel;
 import com.ebanking.model.Transaction;
+import com.ebanking.model.TransactionHistory;
 import com.ebanking.model.User;
 
 import java.sql.*;
@@ -12,6 +13,49 @@ import java.util.Arrays;
 import java.util.List;
 
 public class TransactionDAO implements BaseDAO<Transaction> {
+    
+    public List<TransactionHistory> getMutationHistory(String username, String startDate, String endDate) {
+    List<TransactionHistory> histories = new ArrayList<>();
+    
+    // Query efisien: Hanya mengambil data yang benar-benar akan ditampilkan di tabel
+    String sql = """
+            SELECT 
+                t.transaction_date, 
+                t.transaction_amount,
+                t.location 
+            FROM t_transaction t
+            JOIN m_customer mc ON mc.cif_number = t.cif_number
+            JOIN m_user mu ON mu.cif_number = mc.cif_number
+            WHERE mu.username = ? 
+              AND DATE(t.transaction_date) BETWEEN ? AND ?
+            ORDER BY t.transaction_date DESC
+            """;
+
+    try (Connection conn = getConnection(); 
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+        
+        stmt.setString(1, username);
+        stmt.setString(2, startDate); 
+        stmt.setString(3, endDate);   
+
+        try (ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                TransactionHistory history = new TransactionHistory();
+                
+                // Hanya memetakan kolom yang ada di SELECT clause agar tidak error
+                history.setTransactionDate(rs.getTimestamp("transaction_date"));
+                history.setTransactionAmount(rs.getDouble("transaction_amount"));
+                history.setLocation(rs.getString("location"));
+                
+                histories.add(history);
+            }
+        }
+    } catch (SQLException e) {
+        System.err.println("Error getMutationHistory: " + e.getMessage());
+    }
+    
+    return histories;
+}
     
     public String getAccountNumberByCif(String cifNumber) {
         String sql = "SELECT account_number FROM m_account WHERE cif_number = ? LIMIT 1";
@@ -32,7 +76,7 @@ public class TransactionDAO implements BaseDAO<Transaction> {
     
     public List<FeatureModel> getTransferFeatures() {
         List<FeatureModel> list = new ArrayList<>();
-        String sql = "SELECT feature_code, feature_name, fee FROM m_feature WHERE feature_code"; // Kode '1xx' untuk transfer
+        String sql = "SELECT feature_code, feature_name, fee FROM m_feature WHERE feature_code LIKE '1%'"; // Kode '1xx' untuk transfer
 
         try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
 

@@ -3,26 +3,29 @@ package com.ebanking.service.impl;
 import com.ebanking.dao.TransactionDAO;
 import com.ebanking.model.Account;
 import com.ebanking.service.BaseTransaction;
+import javax.swing.JOptionPane;
 
 public class TransferService extends BaseTransaction {
 
     private String sourceAccount;
 
     private String destinationAccount;
+    private String featureCode;
 
     public TransferService(
             Account account,
             String sourceAccount,
             String destinationAccount,
             double amount,
-            String description
+            String description,
+            String featureCode
     ) {
 
         super(account, amount, description);
 
         this.sourceAccount = sourceAccount;
-
         this.destinationAccount = destinationAccount;
+        this.featureCode = featureCode;
     }
 
     @Override
@@ -32,7 +35,8 @@ public class TransferService extends BaseTransaction {
                 && sourceAccount != null
                 && destinationAccount != null
                 && !sourceAccount.isEmpty()
-                && !destinationAccount.isEmpty();
+                && !destinationAccount.isEmpty()
+                && !featureCode.isEmpty();
     }
 
     @Override
@@ -51,23 +55,28 @@ public class TransferService extends BaseTransaction {
             user.getAccountNumber(),
             destinationAccount,
             amount,
-            "101",
+            this.featureCode,
             user.getCifNumber(),
             "127.0.0.1"
     );
 
     if (success) {
-
-        System.out.println("Transfer berhasil");
+        JOptionPane.showMessageDialog(null, "Transfer Berhasil!");
 
     } else {
-
-        System.out.println("Transfer gagal");
+        JOptionPane.showMessageDialog(null, "Transfer Gagal");
     }
 }
 
     // Getter Setter
+    public String getFeatureCode() {
+        return featureCode;
+    }
 
+    public void setFeatureCode(String featureCode) {
+        this.featureCode = featureCode;
+    }
+    
     public String getSourceAccount() {
         return sourceAccount;
     }

@@ -169,13 +169,14 @@ public class TransferPage extends javax.swing.JPanel implements Page {
                     norekPengirim, // Source Account hasil query DAO
                     rekTujuan, // Destination Account dari input text field
                     nominal,
-                    keterangan
+                    keterangan,
+                    fiturTerpilih.getFeatureCode()
             );
 
             // Eksekusi transaksi ke SP database
             service.execute();
 
-            JOptionPane.showMessageDialog(this, "Permintaan transfer diproses! Periksa log konsol untuk status respon.", "Informasi", JOptionPane.INFORMATION_MESSAGE);
+            onShow();
 
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "Nominal transfer harus berupa angka valid!", "Error Input", JOptionPane.ERROR_MESSAGE);

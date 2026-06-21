@@ -121,16 +121,16 @@ public class IsiBank extends javax.swing.JFrame {
      */
     private void setupRouter() throws SQLException {
         router = new Router(jPanel2);
-<<<<<<< HEAD
+
 
         router.register(new DashboardPage(currentUser));
         router.register(new TransferPage(currentUser));
         router.register(new MutasiPage(currentUser));
         router.register(new PembayaranPage(currentUser));
-        router.register(new AdminPage(currentUser));
+        router.register(new AdminFeaturePage(currentUser));
+        router.register(new AdminMenuPage(currentUser));
 
-=======
->>>>>>> d471c75abf52d3be956087c2b71402898a179b94
+
         PageRegistry registry = buildRegistry();
 
         if (currentUser == null || currentUser.getMenus() == null) return;
@@ -142,10 +142,6 @@ public class IsiBank extends javax.swing.JFrame {
             }
             router.register(page);
         }
-<<<<<<< HEAD
-
-=======
->>>>>>> d471c75abf52d3be956087c2b71402898a179b94
     }
 
     private void buildContentPanels() {
