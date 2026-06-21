@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import com.ebanking.model.Menu;
 import com.ebanking.model.User;
+import com.ebanking.dao.MenuDAO;
 import com.ebanking.view.page.Router;
 import com.ebanking.view.page.PageRegistry;
 import com.ebanking.view.page.Page;
@@ -111,7 +112,7 @@ public class IsiBank extends javax.swing.JFrame {
             .register("/mutasi",     () -> new MutasiPage(currentUser))
             .register("/pembayaran", () -> new PembayaranPage(currentUser))
             .register("/admin/user", () -> new UserManagePage(currentUser))
-            .register("/admin/menu",  () -> new AdminMenuPage(currentUser))
+            .register("/admin/menu",  () -> new AdminMenuPage(currentUser, this::refreshSidebar))
             .register("/admin/feature",    () -> new AdminFeaturePage(currentUser));
     }
 
@@ -203,6 +204,18 @@ public class IsiBank extends javax.swing.JFrame {
 
         jPanel5.revalidate();
         jPanel5.repaint();
+    }
+
+    /**
+     * Dipanggil oleh AdminMenuPage setelah CRUD — query ulang menu dari DB,
+     * update currentUser.menus, lalu rebuild sidebar + re-register router.
+     */
+    public void refreshSidebar() {
+        currentUser.setMenus(new MenuDAO().getAll());
+        jPanel2.removeAll();
+        try { setupRouter(); } catch (SQLException e) { e.printStackTrace(); }
+        renderMenu();
+        relayout();
     }
 
     /**

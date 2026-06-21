@@ -1,6 +1,9 @@
 package com.ebanking.view.page;
 
+import com.ebanking.dao.MenuDAO;
+import com.ebanking.model.Menu;
 import com.ebanking.model.User;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
@@ -8,21 +11,27 @@ import javax.swing.table.DefaultTableModel;
 public class AdminMenuPage extends javax.swing.JPanel implements Page {
 
     private final User user;
+    private final MenuDAO dao = new MenuDAO();
+    private final Runnable onMenuChanged;
 
     public AdminMenuPage(User user) {
+        this(user, null);
+    }
+
+    public AdminMenuPage(User user, Runnable onMenuChanged) {
         this.user = user;
+        this.onMenuChanged = onMenuChanged;
         initComponents();
         styleComponents();
         wireListeners();
+        setEditMode(false);
     }
 
     @Override public String getRoute() { return "/admin/menu"; }
     @Override public JPanel getRoot()  { return this; }
 
     @Override
-    public void onShow() {
-        loadTable(); // TODO: isi implementasi
-    }
+    public void onShow() { loadTable(); }
 
     private void styleComponents() {
         jTable1.getTableHeader().setBackground(new java.awt.Color(0, 102, 102));
@@ -37,7 +46,6 @@ public class AdminMenuPage extends javax.swing.JPanel implements Page {
     }
 
     private void wireListeners() {
-        // Klik baris tabel ? isi form
         jTable1.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) fillFormFromTable();
         });
@@ -47,46 +55,88 @@ public class AdminMenuPage extends javax.swing.JPanel implements Page {
         btnClear.addActionListener(e  -> clearForm());
     }
 
-    // ===================== TODO: diisi teman =====================
-
-    /** Load semua data m_menu ke tabel */
     private void loadTable() {
-        // TODO: query SELECT id, menu_title, route_path, is_active FROM m_menu
-        // lalu isi DefaultTableModel jTable1
+        DefaultTableModel tm = (DefaultTableModel) jTable1.getModel();
+        tm.setRowCount(0);
+        for (Menu m : dao.getAll())
+            tm.addRow(new Object[]{m.getMenuTitle(), m.getRoutePath(), m.isActive()});
     }
 
-    /** Isi form dari baris terpilih */
+    private void setEditMode(boolean editing) {
+        btnSave.setEnabled(!editing);
+        btnUpdate.setEnabled(editing);
+        btnDelete.setEnabled(editing);
+    }
+
     private void fillFormFromTable() {
         int row = jTable1.getSelectedRow();
         if (row == -1) return;
-        txtJudul.setText(jTable1.getValueAt(row, 1).toString());
-        txtRoute.setText(jTable1.getValueAt(row, 2).toString());
-        chkAktif.setSelected(Boolean.TRUE.equals(jTable1.getValueAt(row, 3)));
+        txtJudul.setText(jTable1.getValueAt(row, 0).toString());
+        txtRoute.setText(jTable1.getValueAt(row, 1).toString());
+        chkAktif.setSelected(Boolean.TRUE.equals(jTable1.getValueAt(row, 2)));
+        txtRoute.setEditable(false);
+        setEditMode(true);
     }
 
-    /** INSERT baris baru ke m_menu */
     private void saveMenu() {
-        // TODO: validasi input, lalu INSERT INTO m_menu (menu_title, route_path, is_active)
+        if (!validateForm()) return;
+        Menu m = new Menu(txtJudul.getText().trim(), txtRoute.getText().trim(), chkAktif.isSelected());
+        if (dao.save(m)) {
+            notifyChanged();
+            loadTable(); clearForm();
+            JOptionPane.showMessageDialog(this, "Menu berhasil ditambahkan.");
+        } else {
+            JOptionPane.showMessageDialog(this, "Gagal menyimpan.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
-    /** UPDATE baris terpilih di m_menu */
     private void updateMenu() {
-        // TODO: validasi, lalu UPDATE m_menu SET ... WHERE id = ?
+        if (jTable1.getSelectedRow() == -1) { JOptionPane.showMessageDialog(this, "Pilih menu terlebih dahulu."); return; }
+        if (!validateForm()) return;
+        Menu m = new Menu(txtJudul.getText().trim(), txtRoute.getText().trim(), chkAktif.isSelected());
+        if (dao.update(m)) {
+            notifyChanged();
+            loadTable(); clearForm();
+            JOptionPane.showMessageDialog(this, "Menu berhasil diperbarui.");
+        } else {
+            JOptionPane.showMessageDialog(this, "Gagal memperbarui.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
-    /** DELETE baris terpilih dari m_menu */
     private void deleteMenu() {
-        // TODO: konfirmasi JOptionPane, lalu DELETE FROM m_menu WHERE id = ?
+        int row = jTable1.getSelectedRow();
+        if (row == -1) { JOptionPane.showMessageDialog(this, "Pilih menu terlebih dahulu."); return; }
+        String route = jTable1.getValueAt(row, 1).toString();
+        if (JOptionPane.showConfirmDialog(this,
+                "Yakin menghapus menu \"" + jTable1.getValueAt(row, 0) + "\"?",
+                "Konfirmasi", JOptionPane.YES_NO_OPTION) != JOptionPane.YES_OPTION) return;
+        if (dao.deleteByRoute(route)) {
+            notifyChanged();
+            loadTable(); clearForm();
+            JOptionPane.showMessageDialog(this, "Menu berhasil dihapus.");
+        } else {
+            JOptionPane.showMessageDialog(this, "Gagal menghapus.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private void clearForm() {
-        txtJudul.setText("");
-        txtRoute.setText("");
-        chkAktif.setSelected(false);
+        txtJudul.setText(""); txtRoute.setText(""); chkAktif.setSelected(false);
+        txtRoute.setEditable(true);
         jTable1.clearSelection();
+        setEditMode(false);
     }
 
-    // ==============================================================
+    private boolean validateForm() {
+        if (txtJudul.getText().trim().isEmpty() || txtRoute.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Judul dan Route wajib diisi.");
+            return false;
+        }
+        return true;
+    }
+
+    private void notifyChanged() {
+        if (onMenuChanged != null) onMenuChanged.run();
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -135,9 +185,9 @@ public class AdminMenuPage extends javax.swing.JPanel implements Page {
         pnlTable.setBackground(java.awt.Color.WHITE);
         pnlTable.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(224, 224, 224)));
         jTable1.setModel(new DefaultTableModel(
-            new Object[][]{}, new String[]{"ID", "Judul Menu", "Route", "Aktif"}
+            new Object[][]{}, new String[]{"Judul Menu", "Route", "Aktif"}
         ) {
-            final Class<?>[] types = {Integer.class, String.class, String.class, Boolean.class};
+            final Class<?>[] types = {String.class, String.class, Boolean.class};
             @Override public Class<?> getColumnClass(int c) { return types[c]; }
             @Override public boolean isCellEditable(int r, int c) { return false; }
         });
@@ -254,4 +304,3 @@ public class AdminMenuPage extends javax.swing.JPanel implements Page {
     private javax.swing.JTextField txtRoute;
     // End of variables declaration//GEN-END:variables
 }
-

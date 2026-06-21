@@ -42,6 +42,7 @@
 
   <SubComponents>
 
+    <!-- HEADER -->
     <Container class="javax.swing.JPanel" name="pnlHeader">
       <Properties>
         <Property name="opaque" type="boolean" value="false"/>
@@ -66,24 +67,35 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="lblTitle">
           <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor"><Font name="Segoe UI" size="22" style="1"/></Property>
-            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor"><Color blue="66" green="66" red="0" type="rgb"/></Property>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="22" style="1"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="66" green="66" red="0" type="rgb"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Manajemen Menu"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblSub">
           <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor"><Font name="Segoe UI" size="13" style="0"/></Property>
-            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor"><Color blue="117" green="117" red="117" type="rgb"/></Property>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="13" style="0"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="117" green="117" red="117" type="rgb"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Kelola menu yang tampil di sidebar"/>
           </Properties>
         </Component>
       </SubComponents>
     </Container>
 
+    <!-- TABLE -->
     <Container class="javax.swing.JPanel" name="pnlTable">
       <Properties>
-        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor"><Color blue="255" green="255" red="255" type="rgb"/></Property>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="255" green="255" red="255" type="rgb"/>
+        </Property>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
             <LineBorder><Color blue="224" green="224" red="224" type="rgb"/></LineBorder>
@@ -114,10 +126,11 @@
                 <Property name="fillsViewportHeight" type="boolean" value="true"/>
                 <Property name="rowHeight" type="int" value="30"/>
                 <Property name="showGrid" type="boolean" value="true"/>
-                <Property name="gridColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor"><Color blue="224" green="224" red="224" type="rgb"/></Property>
+                <Property name="gridColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="224" green="224" red="224" type="rgb"/>
+                </Property>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="4" rowCount="0">
-                    <Column editable="false" title="ID"         type="java.lang.Integer"/>
+                  <Table columnCount="3" rowCount="0">
                     <Column editable="false" title="Judul Menu" type="java.lang.String"/>
                     <Column editable="false" title="Route"      type="java.lang.String"/>
                     <Column editable="false" title="Aktif"      type="java.lang.Boolean"/>
@@ -131,9 +144,12 @@
       </SubComponents>
     </Container>
 
+    <!-- FORM INPUT -->
     <Container class="javax.swing.JPanel" name="pnlForm">
       <Properties>
-        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor"><Color blue="255" green="255" red="255" type="rgb"/></Property>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="255" green="255" red="255" type="rgb"/>
+        </Property>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
             <LineBorder><Color blue="224" green="224" red="224" type="rgb"/></LineBorder>
@@ -152,9 +168,9 @@
               </Group>
               <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                <Component id="txtJudul"  max="32767" attributes="0"/>
-                <Component id="txtRoute"  max="32767" attributes="0"/>
-                <Component id="chkAktif"  max="32767" attributes="0"/>
+                <Component id="txtJudul" max="32767" attributes="0"/>
+                <Component id="txtRoute" max="32767" attributes="0"/>
+                <Component id="chkAktif" max="32767" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -172,9 +188,9 @@
             <Group type="102" attributes="0">
               <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                <Component id="lblJudul" alignment="3" min="-2" max="-2" attributes="0"/>
-                <Component id="txtJudul" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
-                <Component id="btnSave"  alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
+                <Component id="lblJudul"  alignment="3" min="-2" max="-2" attributes="0"/>
+                <Component id="txtJudul"  alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
+                <Component id="btnSave"   alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">

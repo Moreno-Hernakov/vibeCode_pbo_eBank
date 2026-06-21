@@ -3,27 +3,28 @@ package com.ebanking.model;
 public class Menu {
     private String menuTitle;
     private String routePath;
+    private boolean isActive;
 
     public Menu() {}
 
     public Menu(String menuTitle, String routePath) {
         this.menuTitle = menuTitle;
         this.routePath = routePath;
+        this.isActive = true;
     }
 
-    public String getMenuTitle() {
-        return menuTitle;
-    }
-
-    public void setMenuTitle(String menuTitle) {
+    public Menu(String menuTitle, String routePath, boolean isActive) {
         this.menuTitle = menuTitle;
-    }
-
-    public String getRoutePath() {
-        return routePath;
-    }
-
-    public void setRoutePath(String routePath) {
         this.routePath = routePath;
+        this.isActive = isActive;
     }
+
+    public String getMenuTitle()  { return menuTitle; }
+    public void setMenuTitle(String menuTitle) { this.menuTitle = menuTitle; }
+
+    public String getRoutePath()  { return routePath; }
+    public void setRoutePath(String routePath) { this.routePath = routePath; }
+
+    public boolean isActive()     { return isActive; }
+    public void setActive(boolean active) { this.isActive = active; }
 }
