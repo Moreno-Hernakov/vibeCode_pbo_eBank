@@ -17,6 +17,7 @@ public class UserManagePage extends javax.swing.JPanel implements Page {
         initComponents();
         styleComponents();
         wireListeners();
+        setRowSelected(false);
     }
 
     @Override public String getRoute() { return "/admin/user"; }
@@ -45,8 +46,17 @@ public class UserManagePage extends javax.swing.JPanel implements Page {
         btnDelete.setCursor(java.awt.Cursor.getPredefinedCursor(java.awt.Cursor.HAND_CURSOR));
     }
 
+    private void setRowSelected(boolean selected) {
+        btnLock.setEnabled(selected);
+        btnUnlock.setEnabled(selected);
+        btnDelete.setEnabled(selected);
+    }
+
     /** Pasang event listener ke tombol */
     private void wireListeners() {
+        jTable1.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) setRowSelected(jTable1.getSelectedRow() != -1);
+        });
         btnLock.addActionListener(e -> setStatus("LOCKED"));
         btnUnlock.addActionListener(e -> setStatus("ACTIVE"));
         btnDelete.addActionListener(e -> deleteUser());
@@ -73,6 +83,7 @@ public class UserManagePage extends javax.swing.JPanel implements Page {
             JOptionPane.showMessageDialog(this, "Gagal load data: " + e.getMessage(),
                 "Error", JOptionPane.ERROR_MESSAGE);
         }
+        setRowSelected(false);
     }
 
     /** Lock atau Unlock akun user yang dipilih */

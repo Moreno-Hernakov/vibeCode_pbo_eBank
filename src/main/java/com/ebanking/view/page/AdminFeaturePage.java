@@ -18,6 +18,7 @@ public class AdminFeaturePage extends javax.swing.JPanel implements Page {
         initComponents();
         styleComponents();
         wireListeners();
+        setEditMode(false);
     }
 
     @Override public String getRoute() { return "/admin/feature"; }
@@ -65,6 +66,12 @@ public class AdminFeaturePage extends javax.swing.JPanel implements Page {
         }
     }
 
+    private void setEditMode(boolean editing) {
+        btnSave.setEnabled(!editing);
+        btnUpdate.setEnabled(editing);
+        btnDelete.setEnabled(editing);
+    }
+
     /** Isi textfield dari baris terpilih di tabel */
     private void fillFormFromTable() {
         int row = jTable1.getSelectedRow();
@@ -76,6 +83,7 @@ public class AdminFeaturePage extends javax.swing.JPanel implements Page {
             .replace("Rp ", "").replace(".", "").replace(",", ".");
         txtBiaya.setText(feeStr);
         txtKode.setEditable(false); // kode tidak boleh diubah saat edit
+        setEditMode(true);
     }
 
     private void saveFeature() {
@@ -120,6 +128,7 @@ public class AdminFeaturePage extends javax.swing.JPanel implements Page {
         txtKode.setText(""); txtNama.setText(""); txtBiaya.setText("");
         txtKode.setEditable(true);
         jTable1.clearSelection();
+        setEditMode(false);
     }
 
     private boolean validateForm() {
