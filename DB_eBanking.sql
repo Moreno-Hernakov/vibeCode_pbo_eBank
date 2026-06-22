@@ -197,31 +197,56 @@ INSERT INTO m_limit (feature_code, classification, limit_amount) VALUES
 ('101', 2, 50000000.00),
 ('102', 1, 5000000.00);
 
+-- Customer: 3 user biasa + 1 admin dummy
 INSERT INTO m_customer (cif_number, customer_name, customer_phone, customer_email, classification, client_pin) VALUES
-('CIF001', 'VALEN', '081234567890', 'valen@gmail.com', 1, '123456'),
-('CIF002', 'RENO',  '081234567891', 'reno@gmail.com',  1, '123456'),
-('CIF003', 'AGUNG', '081234567892', 'agung@gmail.com', 1, '123456');
+('CIF000', 'ADMIN', '080000000000', 'admin@ebanking.com', 2, '000000'),
+('CIF001', 'VALEN', '081234567890', 'valen@gmail.com',    1, '123456'),
+('CIF002', 'RENO',  '081234567891', 'reno@gmail.com',     1, '123456'),
+('CIF003', 'AGUNG', '081234567892', 'agung@gmail.com',    1, '123456');
 
+-- Akun: tiap user biasa punya 2 rekening
 INSERT INTO m_account (account_number, cif_number, product_type_id, balance) VALUES
-('1001001', 'CIF001', 1, 5000000.00),
-('1001002', 'CIF002', 1, 5000000.00),
-('1001003', 'CIF003', 1, 5000000.00);
+('1001001', 'CIF001', 1, 4500000.00),
+('1001002', 'CIF002', 1, 6750000.00),
+('1001003', 'CIF003', 1, 5250000.00),
+('2001001', 'CIF001', 2, 10000000.00),
+('2001002', 'CIF002', 2,  8000000.00),
+('2001003', 'CIF003', 2,  3500000.00);
 
+-- User: password semua '123', admin pakai CIF000
 INSERT INTO m_user (username, password, cif_number, status) VALUES
-('valen', 'pw123', 'CIF001', 'ACTIVE'),
-('reno',  'pw123', 'CIF002', 'ACTIVE'),
-('agung', 'pw123', 'CIF003', 'ACTIVE');
+('admin', '123', 'CIF000', 'ACTIVE'),
+('valen', '123', 'CIF001', 'ACTIVE'),
+('reno',  '123', 'CIF002', 'ACTIVE'),
+('agung', '123', 'CIF003', 'ACTIVE');
 
 INSERT INTO m_menu (menu_title, route_path) VALUES 
-('Dashboard', '/dashboard'),
-('Transfer', '/transfer'),
+('Dashboard',       '/dashboard'),
+('Transfer',        '/transfer'),
 ('Mutasi Rekening', '/mutasi'),
-('Pembayaran', '/pembayaran'),
-('Kelola User',  '/admin/user'),
-('Kelola Menu',  '/admin/menu'),
-('Kelola Fitur', '/admin/feature');
+('Pembayaran',      '/pembayaran'),
+('Kelola User',     '/admin/user'),
+('Kelola Menu',     '/admin/menu'),
+('Kelola Fitur',    '/admin/feature');
 
--- =============================================================================
+-- Transaksi dummy: campuran SUCCESS & FAILED, kemarin + hari ini
+INSERT INTO t_transaction (reference_number, cif_number, from_account_number, customer_reference, transaction_amount, fee, transaction_status, feature_code, response_code, ipaddress, transaction_date) VALUES
+('TRX-20260621-001', 'CIF001', '1001001', '1001002',   500000.00,    0.00, 'SUCCESS', '101', '00', '127.0.0.1', DATE_SUB(NOW(), INTERVAL 1 DAY)),
+('TRX-20260621-002', 'CIF002', '1001002', '1001003',   250000.00,    0.00, 'SUCCESS', '101', '00', '127.0.0.1', DATE_SUB(NOW(), INTERVAL 1 DAY)),
+('TRX-20260621-003', 'CIF003', '1001003', '1001001',   100000.00, 6500.00, 'SUCCESS', '102', '00', '127.0.0.1', DATE_SUB(NOW(), INTERVAL 1 DAY)),
+('TRX-20260621-004', 'CIF001', '1001001', 'PLN-12345',  50000.00, 3000.00, 'SUCCESS', '201', '00', '127.0.0.1', DATE_SUB(NOW(), INTERVAL 1 DAY)),
+('TRX-20260621-005', 'CIF002', '1001002', '1001001',  9999999.00,    0.00, 'FAILED',  '101', '51', '127.0.0.1', DATE_SUB(NOW(), INTERVAL 1 DAY)),
+('TRX-20260622-001', 'CIF001', '1001001', '1001003',   200000.00,    0.00, 'SUCCESS', '101', '00', '127.0.0.1', NOW()),
+('TRX-20260622-002', 'CIF002', '1001002', '1001001',   300000.00,    0.00, 'SUCCESS', '101', '00', '127.0.0.1', NOW()),
+('TRX-20260622-003', 'CIF003', '1001003', 'PLN-67890',  75000.00, 3000.00, 'SUCCESS', '201', '00', '127.0.0.1', NOW()),
+('TRX-20260622-004', 'CIF001', '2001001', '2001002',  1000000.00, 6500.00, 'SUCCESS', '102', '00', '127.0.0.1', NOW()),
+('TRX-20260622-005', 'CIF002', '1001002', '1001003',   500000.00,    0.00, 'FAILED',  '101', '61', '127.0.0.1', NOW()),
+('TRX-20260622-006', 'CIF003', '2001003', '2001001',   750000.00,    0.00, 'SUCCESS', '101', '00', '127.0.0.1', NOW()),
+('TRX-20260622-007', 'CIF001', '1001001', 'PLN-11111', 100000.00, 3000.00, 'SUCCESS', '201', '00', '127.0.0.1', NOW()),
+('TRX-20260622-008', 'CIF002', '2001002', '1001001',  2000000.00, 6500.00, 'SUCCESS', '102', '00', '127.0.0.1', NOW()),
+('TRX-20260622-009', 'CIF003', '1001003', '1001002',   150000.00,    0.00, 'SUCCESS', '101', '00', '127.0.0.1', NOW()),
+('TRX-20260622-010', 'CIF001', '1001001', '1001002',  9000000.00,    0.00, 'FAILED',  '101', '51', '127.0.0.1', NOW());
+
 -- 5. STORED PROCEDURES
 -- =============================================================================
 
