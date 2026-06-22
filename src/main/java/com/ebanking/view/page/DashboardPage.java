@@ -75,7 +75,7 @@ public class DashboardPage extends javax.swing.JPanel implements Page {
 
         add(topPanel, BorderLayout.NORTH);
 
-        // ✅ TAMBAH KOLOM "JENIS TRANSAKSI"
+        
         model = new DefaultTableModel(
             new Object[]{
                 "ID",
