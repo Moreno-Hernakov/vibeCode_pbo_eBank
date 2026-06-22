@@ -64,6 +64,7 @@ public class IsiBank extends javax.swing.JFrame {
         setupBody();
         setupRouter();
         renderMenu();
+        setupHeader();
 
         // Panggil sekali saat startup agar layout langsung benar dari awal
         relayout();
@@ -98,6 +99,28 @@ public class IsiBank extends javax.swing.JFrame {
         jPanel2.setBounds(bodyLeft, contentTop, totalWidth - bodyLeft, totalHeight - contentTop);
         jPanel2.setBackground(new Color(245, 245, 245));
         jPanel2.setLayout(new CardLayout());
+    }
+
+    /**
+     * Tambah tombol "Ganti Password" di kanan header.
+     */
+    private void setupHeader() {
+        javax.swing.JButton btnGantiPw = new javax.swing.JButton("Ganti Password");
+        btnGantiPw.setBackground(new Color(0, 80, 80));
+        btnGantiPw.setForeground(Color.WHITE);
+        btnGantiPw.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 12));
+        btnGantiPw.setFocusPainted(false);
+        btnGantiPw.setCursor(java.awt.Cursor.getPredefinedCursor(java.awt.Cursor.HAND_CURSOR));
+        btnGantiPw.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 12, 4, 12));
+        btnGantiPw.setBounds(750, 8, 140, 28);
+        btnGantiPw.addActionListener(e -> {
+            Forget_pass gp = new Forget_pass(currentUser.getUsername());
+            gp.pack();
+            gp.setLocationRelativeTo(this);
+            gp.setVisible(true);
+        });
+        jPanel3.setLayout(null);
+        jPanel3.add(btnGantiPw);
     }
 
     /**
@@ -257,6 +280,12 @@ public class IsiBank extends javax.swing.JFrame {
 
         // Header selebar penuh window, tinggi tetap 45px
         jPanel3.setBounds(0, 0, w, headerH);
+        // Repositon tombol Ganti Password di kanan header
+        for (java.awt.Component c : jPanel3.getComponents()) {
+            if (c instanceof javax.swing.JButton) {
+                c.setBounds(w - 155, 8, 140, 28);
+            }
+        }
 
         // Sidebar mulai dari x=10, y=45; tinggi = sisa window setelah header
         jPanel5.setBounds(10, headerH, sidebarW - 10, h - headerH);
