@@ -115,11 +115,11 @@ public class SignUp extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Showcard Gothic", 0, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Company Name");
+        jLabel2.setText("dompetku");
 
         jLabel3.setFont(new java.awt.Font("Segoe UI Light", 0, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel3.setText("copyright © company name All rights reserved");
+        jLabel3.setText("copyright © dompetku All rights reserved");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -134,18 +134,18 @@ public class SignUp extends javax.swing.JFrame {
                         .addGap(72, 72, 72)
                         .addComponent(jLabel3))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(104, 104, 104)
+                        .addGap(121, 121, 121)
                         .addComponent(jLabel2)))
-                .addContainerGap(49, Short.MAX_VALUE))
+                .addContainerGap(82, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(129, 129, 129)
                 .addComponent(jLabel1)
-                .addGap(30, 30, 30)
+                .addGap(55, 55, 55)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 108, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 201, Short.MAX_VALUE)
                 .addComponent(jLabel3)
                 .addGap(64, 64, 64))
         );

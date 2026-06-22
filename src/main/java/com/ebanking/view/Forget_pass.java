@@ -1,7 +1,6 @@
 
 package com.ebanking.view;
 
-import com.ebanking.model.User;
 import com.ebanking.service.AuthService;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
@@ -21,6 +20,19 @@ public class Forget_pass extends javax.swing.JFrame {
         
     }
 
+    public Forget_pass(String username) {
+        initComponents();
+        jButton1.addActionListener(e -> {
+            try {
+                changePass();
+            } catch (SQLException ex) {
+                System.getLogger(Forget_pass.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            }
+        });
+        jTextField1.setText(username);
+        jTextField1.setEditable(false);
+    }
+
     private void changePass () throws SQLException {
         String username=jTextField1.getText();
         String old_pass=new String(jPasswordField1.getPassword());
@@ -29,16 +41,11 @@ public class Forget_pass extends javax.swing.JFrame {
         
         try {
             boolean success = authService.changePass(username, old_pass, new_pass, new_pass_confirm);
-            User user = authService.login(username, new_pass);
-            if(success == true) {
-                JOptionPane.showMessageDialog(null, "Ganti Password berhasil!");
-                IsiBank dashboard = new IsiBank(user);
-                dashboard.pack();
-                dashboard.setLocationRelativeTo(null);
-                dashboard.setVisible(true);
+            if (success) {
+                JOptionPane.showMessageDialog(this, "Ganti Password berhasil!");
                 this.dispose();
             } else {
-                JOptionPane.showMessageDialog(null, "Ganti Password Gagal!", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Ganti Password Gagal!", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch(RuntimeException e) {
             JOptionPane.showMessageDialog(

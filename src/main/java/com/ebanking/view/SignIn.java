@@ -12,6 +12,7 @@ public class SignIn extends javax.swing.JFrame {
 
     public SignIn() {
         initComponents();
+        jLabel4.setVisible(false);
         jButton1.addActionListener(e -> {
             try {
                 doLogin();
@@ -98,28 +99,28 @@ public class SignIn extends javax.swing.JFrame {
 
         jLabel6.setFont(new java.awt.Font("Showcard Gothic", 1, 24)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("Company Name");
+        jLabel6.setText("dompetku");
 
         jLabel7.setFont(new java.awt.Font("Segoe UI Light", 0, 14)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel7.setText("copyright © company name All rights reserved");
+        jLabel7.setText("copyright © dompetku All rights reserved");
 
         javax.swing.GroupLayout RightLayout = new javax.swing.GroupLayout(Right);
         Right.setLayout(RightLayout);
         RightLayout.setHorizontalGroup(
             RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, RightLayout.createSequentialGroup()
-                .addGap(0, 81, Short.MAX_VALUE)
+                .addGap(0, 114, Short.MAX_VALUE)
                 .addComponent(jLabel7)
                 .addGap(40, 40, 40))
             .addGroup(RightLayout.createSequentialGroup()
                 .addGroup(RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(RightLayout.createSequentialGroup()
-                        .addGap(103, 103, 103)
-                        .addComponent(jLabel6))
-                    .addGroup(RightLayout.createSequentialGroup()
                         .addGap(145, 145, 145)
-                        .addComponent(jLabel5)))
+                        .addComponent(jLabel5))
+                    .addGroup(RightLayout.createSequentialGroup()
+                        .addGap(126, 126, 126)
+                        .addComponent(jLabel6)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         RightLayout.setVerticalGroup(
@@ -127,9 +128,9 @@ public class SignIn extends javax.swing.JFrame {
             .addGroup(RightLayout.createSequentialGroup()
                 .addGap(136, 136, 136)
                 .addComponent(jLabel5)
-                .addGap(26, 26, 26)
+                .addGap(36, 36, 36)
                 .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 91, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 199, Short.MAX_VALUE)
                 .addComponent(jLabel7)
                 .addGap(78, 78, 78))
         );
@@ -244,11 +245,7 @@ public class SignIn extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
-        Forget_pass forgetPw = new Forget_pass();
-        forgetPw.setVisible(true);
-        forgetPw.pack();
-        forgetPw.setLocationRelativeTo(null); 
-        this.dispose();
+        // Ganti password tersedia di dalam aplikasi setelah login
     }//GEN-LAST:event_jLabel4MouseClicked
 
     private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
