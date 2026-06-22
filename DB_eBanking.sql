@@ -56,7 +56,7 @@ CREATE TABLE m_product_type (
 
 CREATE TABLE m_customer (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    cif_number VARCHAR(20) NOT NULL,
+    cif_number VARCHAR(20) UNIQUE NOT NULL,
     customer_name VARCHAR(100) NOT NULL,
     customer_phone VARCHAR(20),
     customer_email VARCHAR(100),
