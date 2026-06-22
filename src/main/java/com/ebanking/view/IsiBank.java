@@ -112,15 +112,37 @@ public class IsiBank extends javax.swing.JFrame {
         btnGantiPw.setFocusPainted(false);
         btnGantiPw.setCursor(java.awt.Cursor.getPredefinedCursor(java.awt.Cursor.HAND_CURSOR));
         btnGantiPw.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 12, 4, 12));
-        btnGantiPw.setBounds(750, 8, 140, 28);
+        btnGantiPw.setName("btnGantiPw");
         btnGantiPw.addActionListener(e -> {
             Forget_pass gp = new Forget_pass(currentUser.getUsername());
             gp.pack();
             gp.setLocationRelativeTo(this);
             gp.setVisible(true);
         });
+
+        javax.swing.JButton btnLogout = new javax.swing.JButton("Logout");
+        btnLogout.setBackground(new Color(180, 30, 30));
+        btnLogout.setForeground(Color.WHITE);
+        btnLogout.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 12));
+        btnLogout.setFocusPainted(false);
+        btnLogout.setCursor(java.awt.Cursor.getPredefinedCursor(java.awt.Cursor.HAND_CURSOR));
+        btnLogout.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 12, 4, 12));
+        btnLogout.setName("btnLogout");
+        btnLogout.addActionListener(e -> {
+            int confirm = javax.swing.JOptionPane.showConfirmDialog(this,
+                "Yakin ingin keluar?", "Logout", javax.swing.JOptionPane.YES_NO_OPTION);
+            if (confirm == javax.swing.JOptionPane.YES_OPTION) {
+                SignIn login = new SignIn();
+                login.pack();
+                login.setLocationRelativeTo(null);
+                login.setVisible(true);
+                this.dispose();
+            }
+        });
+
         jPanel3.setLayout(null);
         jPanel3.add(btnGantiPw);
+        jPanel3.add(btnLogout);
     }
 
     /**
@@ -280,10 +302,14 @@ public class IsiBank extends javax.swing.JFrame {
 
         // Header selebar penuh window, tinggi tetap 45px
         jPanel3.setBounds(0, 0, w, headerH);
-        // Repositon tombol Ganti Password di kanan header
+        // Reposisi tombol header
         for (java.awt.Component c : jPanel3.getComponents()) {
             if (c instanceof javax.swing.JButton) {
-                c.setBounds(w - 155, 8, 140, 28);
+                if ("btnLogout".equals(c.getName())) {
+                    c.setBounds(w - 90, 8, 75, 28);
+                } else if ("btnGantiPw".equals(c.getName())) {
+                    c.setBounds(w - 240, 8, 140, 28);
+                }
             }
         }
 
