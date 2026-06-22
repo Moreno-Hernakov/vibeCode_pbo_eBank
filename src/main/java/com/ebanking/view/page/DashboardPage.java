@@ -1,5 +1,4 @@
 package com.ebanking.view.page;
-
 import com.ebanking.config.DBConnection;
 import com.ebanking.model.User;
 import java.awt.BorderLayout;
@@ -29,6 +28,11 @@ public class DashboardPage extends javax.swing.JPanel implements Page {
     public DashboardPage(User user) {
         this.user = user;
         initComponents();
+        System.out.println(user.getCifNumber());
+      
+};
+    
+        
     }
 
     @Override public String getRoute() { return "/dashboard"; }
@@ -98,7 +102,7 @@ public class DashboardPage extends javax.swing.JPanel implements Page {
         lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 14));
         lblTitle.setForeground(new Color(117, 117, 117));
 
-        valueLabel.setFont(new Font("Segoe UI", Font.BOLD, 28));
+        valueLabel.setFont(new Font("Segoe UI", Font.BOLD, 20));
         valueLabel.setForeground(new Color(0, 102, 102));
 
         card.add(lblTitle,   BorderLayout.NORTH);
@@ -131,23 +135,33 @@ public class DashboardPage extends javax.swing.JPanel implements Page {
     }
 
     private void loadTable() {
-        model.setRowCount(0);
-        String sql = "SELECT id_transaction, reference_number, transaction_date, " +
-                     "transaction_amount, transaction_status, from_account_number " +
-                     "FROM t_transaction WHERE cif_number = ? ORDER BY transaction_date DESC";
+       
+       model.setRowCount(0);
+    
+    String sql =
+"SELECT t.id_transaction, t.reference_number, f.feature_name, " +
+"t.transaction_date, t.transaction_amount, " +
+"t.transaction_status, t.from_account_number " +
+"FROM t_transaction t " +
+"JOIN m_feature f ON t.feature_code = f.feature_code " +
+"WHERE t.cif_number = ? " +
+"ORDER BY t.transaction_date DESC";
+    
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, user.getCifNumber());
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    model.addRow(new Object[]{
-                        rs.getLong("id_transaction"),
-                        rs.getTimestamp("transaction_date"),
-                        rs.getString("reference_number"),
-                        String.format("Rp %,.0f", rs.getDouble("transaction_amount")),
-                        rs.getString("transaction_status"),
-                        rs.getString("from_account_number")
-                    });
+    model.addRow(new Object[]{
+    rs.getLong("id_transaction"),
+    rs.getString("reference_number"),
+    rs.getString("feature_name"),
+    rs.getTimestamp("transaction_date"),
+    String.format("Rp %,.0f",rs.getDouble("transaction_amount")),
+    rs.getString("transaction_status"),
+    rs.getString("from_account_number")
+});
+
                 }
             }
         } catch (Exception e) { e.printStackTrace(); }
