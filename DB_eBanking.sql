@@ -14,7 +14,7 @@ CREATE TABLE m_user (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
-    cif_number VARCHAR(20) UNIQUE NOT NULL,
+    cif_number VARCHAR(20) NOT NULL,
     status VARCHAR(20) DEFAULT 'ACTIVE',
     failed_attempts INT DEFAULT 0,
     last_failed_login TIMESTAMP NULL,
@@ -56,7 +56,7 @@ CREATE TABLE m_product_type (
 
 CREATE TABLE m_customer (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    cif_number VARCHAR(20) UNIQUE NOT NULL,
+    cif_number VARCHAR(20) NOT NULL,
     customer_name VARCHAR(100) NOT NULL,
     customer_phone VARCHAR(20),
     customer_email VARCHAR(100),
@@ -215,7 +215,10 @@ INSERT INTO m_account (account_number, cif_number, product_type_id, balance) VAL
 
 -- User: password semua '123', admin pakai CIF000
 INSERT INTO m_user (username, password, cif_number, status) VALUES
-('admin', '123', 'CIF000', 'ACTIVE'),
+('admin',       '123', 'CIF000', 'ACTIVE'),
+('admin_valen', '123', 'CIF000', 'ACTIVE'),
+('admin_reno',  '123', 'CIF000', 'ACTIVE'),
+('admin_agung', '123', 'CIF000', 'ACTIVE'),
 ('valen', '123', 'CIF001', 'ACTIVE'),
 ('reno',  '123', 'CIF002', 'ACTIVE'),
 ('agung', '123', 'CIF003', 'ACTIVE');
@@ -274,8 +277,12 @@ BEGIN
         IF v_db_password = p_password THEN
             INSERT INTO h_login_log (cif_number, status) VALUES (v_cif, 'SUCCESS');
             SET r_response_code = "00";
-            -- Return Menu List (Dynamic Menu Support)
-            SELECT menu_title, route_path FROM m_menu WHERE is_active = 1;
+            IF v_cif = 'CIF000' THEN
+                SELECT menu_title, route_path FROM m_menu WHERE is_active = 1;
+            ELSE
+                SELECT menu_title, route_path FROM m_menu
+                WHERE is_active = 1 AND route_path NOT LIKE '/admin/%';
+            END IF;
         ELSE
             INSERT INTO h_login_log (cif_number, status) VALUES (v_cif, 'FAILED');
             SET r_response_code = "03"; 
