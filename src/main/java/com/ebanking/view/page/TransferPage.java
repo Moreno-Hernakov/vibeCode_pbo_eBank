@@ -21,6 +21,7 @@ public class TransferPage extends javax.swing.JPanel implements Page {
         this.user = user;
         initComponents();
         loadFeatures();
+        btnTransfer.addActionListener(e -> prosesTransfer());
     }
 
     @Override public String getRoute() { return "/transfer"; }

@@ -19,6 +19,7 @@ public class PembayaranPage extends javax.swing.JPanel implements Page {
     public PembayaranPage(User user) {
         this.user = user;
         initComponents();
+        btnBayar.addActionListener(e -> prosesBayar());
     }
 
     @Override public String getRoute() { return "/pembayaran"; }
