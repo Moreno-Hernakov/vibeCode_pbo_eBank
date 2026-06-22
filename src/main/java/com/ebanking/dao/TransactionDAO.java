@@ -93,6 +93,18 @@ public class TransactionDAO implements BaseDAO<Transaction> {
         return list;
     }
 
+    public List<FeatureModel> getPaymentFeatures() {
+        List<FeatureModel> list = new ArrayList<>();
+        String sql = "SELECT feature_code, feature_name, fee FROM m_feature WHERE feature_code LIKE '2%'";
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next())
+                list.add(new FeatureModel(rs.getString("feature_code"), rs.getString("feature_name"), rs.getDouble("fee")));
+        } catch (SQLException e) { System.err.println("Error getPaymentFeatures: " + e.getMessage()); }
+        return list;
+    }
+
     private Connection getConnection() throws SQLException {
         return DBConnection.getConnection();
     }

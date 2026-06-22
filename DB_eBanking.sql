@@ -361,18 +361,21 @@ BEGIN
     SET r_reference_number = v_ref_no;
     
     SELECT balance, status INTO v_from_balance, v_from_status FROM m_account WHERE account_number = p_from_account;
-    SELECT status INTO v_to_status FROM m_account WHERE account_number = p_to_account;
+    IF p_feature_code NOT LIKE '2%' THEN
+        SELECT status INTO v_to_status FROM m_account WHERE account_number = p_to_account;
+    END IF;
     SELECT fee INTO v_fee FROM m_feature WHERE feature_code = p_feature_code;
     SELECT classification INTO v_classification FROM m_customer WHERE cif_number = p_cif_number;
 
-    IF v_from_status IS NULL OR v_to_status IS NULL THEN SET r_response_code = '14';
-    ELSEIF v_from_status != 'ACTIVE' OR v_to_status != 'ACTIVE' THEN SET r_response_code = '14';
+    IF v_from_status IS NULL THEN SET r_response_code = '14';
+    ELSEIF v_from_status != 'ACTIVE' THEN SET r_response_code = '14';
+    ELSEIF p_feature_code NOT LIKE '2%' AND (v_to_status IS NULL OR v_to_status != 'ACTIVE') THEN SET r_response_code = '14';
     ELSEIF v_from_balance < (p_amount + v_fee) THEN SET r_response_code = '51';
     ELSE
         SELECT limit_amount INTO v_daily_limit FROM m_limit WHERE feature_code = p_feature_code AND classification = v_classification;
         SELECT IFNULL(SUM(transaction_amount), 0) INTO v_total_today FROM t_transaction WHERE cif_number = p_cif_number AND feature_code = p_feature_code AND transaction_status = 'SUCCESS' AND DATE(transaction_date) = CURDATE();
         
-        IF (v_total_today + p_amount) > v_daily_limit THEN 
+        IF v_daily_limit IS NOT NULL AND (v_total_today + p_amount) > v_daily_limit THEN 
             SET r_response_code = '61';
         ELSE
             START TRANSACTION;
