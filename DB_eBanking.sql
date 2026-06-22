@@ -177,9 +177,12 @@ INSERT INTO m_product_type (id, product_name) VALUES
 (3, 'DEPOSITO');
 
 INSERT INTO m_feature (feature_code, feature_name, fee) VALUES
-('101', 'Transfer Sesama Bank', 0.00),
-('102', 'Transfer Antar Bank', 6500.00),
-('201', 'Pembayaran PLN', 3000.00);
+('101', 'Transfer Sesama Bank',     0.00),
+('102', 'Transfer Antar Bank',    6500.00),
+('103', 'Transfer Dompet Digital', 2500.00),
+('201', 'Pembayaran PLN',           3000.00),
+('202', 'Pembayaran BPJS Kesehatan', 2500.00),
+('203', 'Pembayaran Token Listrik',  1500.00);
 
 INSERT INTO m_response_code (response_code, response_message) VALUES
 ('00', 'Success'),
@@ -195,7 +198,9 @@ INSERT INTO m_response_code (response_code, response_message) VALUES
 INSERT INTO m_limit (feature_code, classification, limit_amount) VALUES
 ('101', 1, 10000000.00),
 ('101', 2, 50000000.00),
-('102', 1, 5000000.00);
+('102', 1,  5000000.00),
+('103', 1,  5000000.00),
+('103', 2, 20000000.00);
 
 -- Customer: 3 user biasa + 1 admin dummy
 INSERT INTO m_customer (cif_number, customer_name, customer_phone, customer_email, classification, client_pin) VALUES
@@ -248,7 +253,16 @@ INSERT INTO t_transaction (reference_number, cif_number, from_account_number, cu
 ('TRX-20260622-007', 'CIF001', '1001001', 'PLN-11111', 100000.00, 3000.00, 'SUCCESS', '201', '00', '127.0.0.1', NOW()),
 ('TRX-20260622-008', 'CIF002', '2001002', '1001001',  2000000.00, 6500.00, 'SUCCESS', '102', '00', '127.0.0.1', NOW()),
 ('TRX-20260622-009', 'CIF003', '1001003', '1001002',   150000.00,    0.00, 'SUCCESS', '101', '00', '127.0.0.1', NOW()),
-('TRX-20260622-010', 'CIF001', '1001001', '1001002',  9000000.00,    0.00, 'FAILED',  '101', '51', '127.0.0.1', NOW());
+('TRX-20260622-010', 'CIF001', '1001001', '1001002',  9000000.00,    0.00, 'FAILED',  '101', '51', '127.0.0.1', NOW()),
+('TRX-20260622-011', 'CIF001', '1001001', 'GoPay-08111',  150000.00, 2500.00, 'SUCCESS', '103', '00', '127.0.0.1', NOW()),
+('TRX-20260622-012', 'CIF001', '1001001', 'BPJS-001001',  100000.00, 2500.00, 'SUCCESS', '202', '00', '127.0.0.1', NOW()),
+('TRX-20260622-013', 'CIF001', '1001001', 'TOKEN-001001', 200000.00, 1500.00, 'SUCCESS', '203', '00', '127.0.0.1', NOW()),
+('TRX-20260622-014', 'CIF002', '1001002', 'OVO-08222',    250000.00, 2500.00, 'SUCCESS', '103', '00', '127.0.0.1', NOW()),
+('TRX-20260622-015', 'CIF002', '1001002', 'BPJS-001002',  100000.00, 2500.00, 'SUCCESS', '202', '00', '127.0.0.1', NOW()),
+('TRX-20260622-016', 'CIF002', '2001002', 'TOKEN-001002',  50000.00, 1500.00, 'SUCCESS', '203', '00', '127.0.0.1', NOW()),
+('TRX-20260622-017', 'CIF003', '1001003', 'Dana-08333',   175000.00, 2500.00, 'SUCCESS', '103', '00', '127.0.0.1', NOW()),
+('TRX-20260622-018', 'CIF003', '1001003', 'BPJS-001003',  100000.00, 2500.00, 'SUCCESS', '202', '00', '127.0.0.1', NOW()),
+('TRX-20260622-019', 'CIF003', '2001003', 'TOKEN-001003',  75000.00, 1500.00, 'SUCCESS', '203', '00', '127.0.0.1', NOW());
 
 -- 5. STORED PROCEDURES
 -- =============================================================================
